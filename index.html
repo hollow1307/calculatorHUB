@@ -21,6 +21,7 @@
     </header>
 
     <main class="main-container">
+        <!-- Первый калькулятор -->
         <div class="calculator">
             <div class="calculator-header">
                 <h2>Хранение контейнера (₽)</h2>
@@ -57,52 +58,11 @@
             </div>
         </div>
 
+        <!-- Второй калькулятор -->
         <div class="calculator">
             <div class="calculator-header">
                 <h2>Демередж (USD)</h2>
             </div>
             <div class="calculator-body">
                 <div class="input-group">
-                    <label for="demurrage-container-type">Тип контейнера:</label>
-                    <select id="demurrage-container-type">
-                        <option value="20dc">20 DC</option>
-                        <option value="40dc">40 DC</option>
-                        <option value="40href">40 HREF</option>
-                    </select>
-                </div>
-                
-                <div class="input-group" id="free-days-group" style="display: none;">
-                    <label for="free-days">Количество дней свободного периода:</label>
-                    <input type="number" id="free-days" min="1" value="1">
-                </div>
-                
-                <div class="input-group">
-                    <label for="unload-date-demurrage">Дата выгрузки:</label>
-                    <input type="date" id="unload-date-demurrage" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="return-date">Дата возврата порожнего:</label>
-                    <input type="date" id="return-date" required>
-                </div>
-                
-                <button onclick="calculateDemurrage()">РАССЧИТАТЬ</button>
-                
-                <div class="result">
-                    <h3>Результат:</h3>
-                    <div id="demurrage-details"></div>
-                    <p class="total-cost" id="demurrage-total">Итого: 0 USD</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="footer-container">
-            <p class="footer-notice">Тарифы не являются публичной офертой</p>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
+                    <label for="demurrage-container-type">
