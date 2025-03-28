@@ -10,8 +10,6 @@
 
   /* Размеры */
   --max-width: 1440px;
-  --mobile-breakpoint: 768px;
-  --desktop-breakpoint: 1200px;
 }
 
 /* Общие стили */
@@ -70,15 +68,39 @@ h1 {
   flex-grow: 1;
 }
 
-/* Основной контент */
+/* Основной контент - ГЛАВНЫЕ ИЗМЕНЕНИЯ ЗДЕСЬ */
 .main-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr));
+  grid-template-columns: 1fr; /* По умолчанию одна колонка */
   gap: 2rem;
   max-width: var(--max-width);
   margin: 2rem auto;
   padding: 0 2rem;
   flex: 1;
+}
+
+/* Десктопная версия (шире 768px) */
+@media (min-width: 769px) {
+  .main-container {
+    grid-template-columns: repeat(2, 1fr); /* Две колонки */
+  }
+  
+  /* Делаем калькуляторы одинаковой высоты */
+  .calculator {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .calculator-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  button {
+    margin-top: auto; /* Прижимаем кнопку к низу */
+  }
 }
 
 /* Калькуляторы */
@@ -203,7 +225,7 @@ footer {
   font-size: 0.9rem;
 }
 
-/* Адаптивность */
+/* Мобильная версия */
 @media (max-width: 768px) {
   .header-container {
     flex-direction: column;
