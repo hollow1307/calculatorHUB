@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор хранения и демереджа контейнеров</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <img src="logo-left.png" alt="Логотип компании" class="header-logo">
+            <h1>Калькулятор хранения и демереджа контейнеров</h1>
+            <div class="header-images">
+                <img src="image-right-1.png" alt="Декоративное изображение 1" class="header-image">
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="calculator">
+            <div class="calculator-header">
+                <h2>Хранение контейнера (₽)</h2>
+            </div>
+            <div class="calculator-body">
+                <div class="input-group">
+                    <label for="storage-container-type">Тип контейнера:</label>
+                    <select id="storage-container-type">
+                        <option value="20dc">20 DC</option>
+                        <option value="40dc">40 DC</option>
+                        <option value="40href">40 HREF</option>
+                        <option value="imo20dc">IMO 20 DC</option>
+                        <option value="imo40dc">IMO 40 DC</option>
+                    </select>
+                </div>
+                
+                <div class="input-group">
+                    <label for="unload-date-storage">Дата выгрузки:</label>
+                    <input type="date" id="unload-date-storage" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="pickup-date">Дата вывоза:</label>
+                    <input type="date" id="pickup-date" required>
+                </div>
+                
+                <button onclick="calculateStorage()">РАССЧИТАТЬ</button>
+                
+                <div class="result">
+                    <h3>Результат:</h3>
+                    <div id="storage-details"></div>
+                    <p class="total-cost" id="storage-total">Итого: 0 ₽</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="calculator">
+            <div class="calculator-header">
+                <h2>Демередж (USD)</h2>
+            </div>
+            <div class="calculator-body">
+                <div class="input-group">
+                    <label for="demurrage-container-type">Тип контейнера:</label>
+                    <select id="demurrage-container-type">
+                        <option value="20dc">20 DC</option>
+                        <option value="40dc">40 DC</option>
+                        <option value="40href">40 HREF</option>
+                    </select>
+                </div>
+                
+                <div class="input-group" id="free-days-group" style="display: none;">
+                    <label for="free-days">Количество дней свободного периода:</label>
+                    <input type="number" id="free-days" min="1" value="1">
+                </div>
+                
+                <div class="input-group">
+                    <label for="unload-date-demurrage">Дата выгрузки:</label>
+                    <input type="date" id="unload-date-demurrage" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="return-date">Дата возврата порожнего:</label>
+                    <input type="date" id="return-date" required>
+                </div>
+                
+                <button onclick="calculateDemurrage()">РАССЧИТАТЬ</button>
+                
+                <div class="result">
+                    <h3>Результат:</h3>
+                    <div id="demurrage-details"></div>
+                    <p class="total-cost" id="demurrage-total">Итого: 0 USD</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <p class="footer-notice">Тарифы не являются публичной офертой</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
