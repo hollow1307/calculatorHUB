@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     dateInputs.forEach(input => {
         if (input) {
             // Устанавливаем минимальную и максимальную даты
-            input.min = '1900-01-01';
+            input.min = '2000-01-01';
             input.max = '2030-12-31';
             
             // Добавляем проверку при изменении
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     const date = new Date(this.value);
                     const year = date.getFullYear();
                     
-                    if (year < 1900) {
-                        alert('Минимальный допустимый год - 1900');
+                    if (year < 2000) {
+                        alert('Минимальный допустимый год - 2000');
                         this.value = '';
                     } else if (year > 2030) {
                         alert('Максимальный допустимый год - 2030');
