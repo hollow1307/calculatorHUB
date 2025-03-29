@@ -1,3 +1,44 @@
+// Инициализация
+document.addEventListener('DOMContentLoaded', function() {
+    // Обработчик для 40 HREF
+    document.getElementById('demurrage-container-type').addEventListener('change', function() {
+        document.getElementById('free-days-group').style.display = 
+            this.value === '40href' ? 'block' : 'none';
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const dateInputs = [
+        document.getElementById('unload-date-storage'),
+        document.getElementById('pickup-date'),
+        document.getElementById('unload-date-demurrage'),
+        document.getElementById('return-date')
+    ];
+
+    dateInputs.forEach(input => {
+        if (input) {
+            // Устанавливаем минимальную и максимальную даты
+            input.min = '1900-01-01';
+            input.max = '2030-12-31';
+            
+            // Добавляем проверку при изменении
+            input.addEventListener('change', function() {
+                if (this.value) {
+                    const date = new Date(this.value);
+                    const year = date.getFullYear();
+                    
+                    if (year < 1900) {
+                        alert('Минимальный допустимый год - 1900');
+                        this.value = '';
+                    } else if (year > 2030) {
+                        alert('Максимальный допустимый год - 2030');
+                        this.value = '';
+                    }
+                }
+            });
+        }
+    });
+});
 // Тарифы хранения (руб/день)
 const storageRates = {
     "20dc": [
