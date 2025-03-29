@@ -1,13 +1,5 @@
 // Инициализация
 document.addEventListener('DOMContentLoaded', function() {
-    // Обработчик для 40 HREF
-    document.getElementById('demurrage-container-type').addEventListener('change', function() {
-        document.getElementById('free-days-group').style.display = 
-            this.value === '40href' ? 'block' : 'none';
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
     const dateInputs = [
         document.getElementById('unload-date-storage'),
         document.getElementById('pickup-date'),
@@ -17,21 +9,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
     dateInputs.forEach(input => {
         if (input) {
-            // Устанавливаем минимальную и максимальную даты
             input.min = '2000-01-01';
             input.max = '2030-12-31';
             
-            // Добавляем проверку при изменении
-            input.addEventListener('change', function() {
-                if (this.value) {
+            // Временное хранилище для неполной даты
+            let tempValue = '';
+            
+            input.addEventListener('input', function(e) {
+                // Если пользователь еще вводит дату, не проверяем
+                if (this.value.length < 10) {
+                    tempValue = this.value;
+                    return;
+                }
+                
+                // Проверяем только когда ввод завершен (полная дата)
+                if (this.value.length === 10) {
+                    const date = new Date(this.value);
+                    if (isNaN(date.getTime())) {
+                        this.value = tempValue; // Возвращаем предыдущее значение
+                        return;
+                    }
+                    
+                    const year = date.getFullYear();
+                    if (year < 2000 || year > 2030) {
+                        this.value = tempValue; // Возвращаем предыдущее значение
+                        alert(`Год должен быть между 2000 и 2030`);
+                    }
+                }
+            });
+            
+            // Финальная проверка при потере фокуса
+            input.addEventListener('blur', function() {
+                if (this.value && this.value.length === 10) {
                     const date = new Date(this.value);
                     const year = date.getFullYear();
                     
-                    if (year < 2000) {
-                        alert('Минимальный допустимый год - 2000');
-                        this.value = '';
-                    } else if (year > 2030) {
-                        alert('Максимальный допустимый год - 2030');
+                    if (year < 2000 || year > 2030) {
+                        alert(`Год должен быть между 2000 и 2030`);
                         this.value = '';
                     }
                 }
