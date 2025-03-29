@@ -44,12 +44,12 @@
                 
                  <div class="input-group">
                     <label for="unload-date-storage">Дата выгрузки:</label>
-                    <input type="date" id="unload-date-storage" required>
+                    <input type="date" id="unload-date-storage" required pattern="\d{4}-\d{2}-\d{2}" maxlength="10">
                 </div>
-                
+
                 <div class="input-group">
-                    <label for="pickup-date">Дата вывоза:</label>
-                    <input type="date" id="pickup-date" required>
+                     <label for="pickup-date">Дата вывоза:</label>
+                    <input type="date" id="pickup-date" required pattern="\d{4}-\d{2}-\d{2}" maxlength="10">
                 </div>
                 
                 <button onclick="calculateStorage()">РАССЧИТАТЬ</button>
@@ -82,14 +82,14 @@
                 </div>
                 
               <div class="input-group">
-                    <label for="unload-date-demurrage">Дата выгрузки:</label>
-                    <input type="date" id="unload-date-demurrage" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="return-date">Дата возврата порожнего:</label>
-                    <input type="date" id="return-date" required>
-                </div>
+                <label for="unload-date-demurrage">Дата выгрузки:</label>
+                <input type="date" id="unload-date-demurrage" required pattern="\d{4}-\d{2}-\d{2}" maxlength="10">
+            </div>
+
+            <div class="input-group">
+                <label for="return-date">Дата возврата порожнего:</label>
+                <input type="date" id="return-date" required pattern="\d{4}-\d{2}-\d{2}" maxlength="10">
+            </div>
                 
                 <button onclick="calculateDemurrage()">РАССЧИТАТЬ</button>
                 
