@@ -55,6 +55,26 @@ const demurrageRates = {
     ]
 };
 
+function validateDateInput(dateInput) {
+    if (!dateInput.value) return false;
+    
+    // Проверяем формат ГГГГ-ММ-ДД
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(dateInput.value)) {
+        alert("Ошибка: Дата должна быть в формате ГГГГ-ММ-ДД (например, 2023-12-31)");
+        return false;
+    }
+    
+    // Проверяем, что год состоит из 4 цифр
+    const year = dateInput.value.split('-')[0];
+    if (year.length !== 4) {
+        alert("Ошибка: Год должен состоять из 4 цифр");
+        return false;
+    }
+    
+    return true;
+}
+
 // Показываем/скрываем поле для 40 HREF
 document.getElementById('demurrage-container-type').addEventListener('change', function() {
     const freeDaysGroup = document.getElementById('free-days-group');
@@ -63,8 +83,16 @@ document.getElementById('demurrage-container-type').addEventListener('change', f
 
 function calculateStorage() {
     const containerType = document.getElementById("storage-container-type").value;
-    const unloadDate = new Date(document.getElementById("unload-date-storage").value);
-    const pickupDate = new Date(document.getElementById("pickup-date").value);
+    const unloadDateInput = document.getElementById("unload-date-storage");
+    const pickupDateInput = document.getElementById("pickup-date");
+    
+    // Валидация ввода
+    if (!validateDateInput(unloadDateInput) || !validateDateInput(pickupDateInput)) {
+        return;
+    }
+    
+    const unloadDate = new Date(unloadDateInput.value);
+    const pickupDate = new Date(pickupDateInput.value);
     
     if (!unloadDate || !pickupDate || pickupDate < unloadDate) {
         alert("Ошибка: некорректные даты!");
@@ -108,8 +136,16 @@ function calculateStorage() {
 
 function calculateDemurrage() {
     const containerType = document.getElementById("demurrage-container-type").value;
-    const unloadDate = new Date(document.getElementById("unload-date-demurrage").value);
-    const returnDate = new Date(document.getElementById("return-date").value);
+    const unloadDateInput = document.getElementById("unload-date-demurrage");
+    const returnDateInput = document.getElementById("return-date");
+    
+    // Валидация ввода
+    if (!validateDateInput(unloadDateInput) || !validateDateInput(returnDateInput)) {
+        return;
+    }
+    
+    const unloadDate = new Date(unloadDateInput.value);
+    const returnDate = new Date(returnDateInput.value);
     
     if (!unloadDate || !returnDate || returnDate < unloadDate) {
         alert("Ошибка: некорректные даты!");
