@@ -279,3 +279,16 @@ footer {
     padding: 0 3rem;
   }
 }
+
+/* Стили для нового поля выбора локации */
+#location-group {
+  display: block;
+}
+
+/* Для мобильной версии */
+@media (max-width: 768px) {
+  #location-group select,
+  #free-days-group input {
+    font-size: 0.9rem;
+  }
+}
