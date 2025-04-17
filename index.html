@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Калькулятор хранения и использования оборудования линии в порту</title>
-    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="shortcut icon" href="favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
-    <link rel="manifest" href="site.webmanifest" />
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Raleway:wght@500;600;700&display=swap" rel="stylesheet">
@@ -28,31 +28,39 @@
     <main class="main-container">
         <div class="calculator">
             <div class="calculator-header">
-                <h2>Хранение контейнера (₽)</h2>
+                <h2>Хранение контейнера</h2>
             </div>
             <div class="calculator-body">
                 <div class="input-group">
-                    <label for="storage-container-type">Тип контейнера:</label>
-                    <select id="storage-container-type">
-                        <option value="20dc">20 DC</option>
-                        <option value="40dc">40 DC</option>
-                        <option value="40href">40 HREF</option>
-                        <option value="imo20dc">IMO 20 DC</option>
-                        <option value="imo40dc">IMO 40 DC</option>
+                    <label for="storage-port">Порт:</label>
+                    <select id="storage-port">
+                        <option value="novorossiysk">Новороссийск</option>
+                        <option value="kaliningrad">Калининград (Балтийск)</option>
+                        <option value="spb">Санкт-Петербург (КТСП)</option>
                     </select>
                 </div>
-                
+
+                <div class="input-group" id="storage-terminal-group" style="display: none;">
+                    <label for="storage-terminal">Терминал:</label>
+                    <select id="storage-terminal"></select>
+                </div>
+
+                <div class="input-group">
+                    <label for="storage-container-type">Тип контейнера:</label>
+                    <select id="storage-container-type"></select>
+                </div>
+
                 <div class="input-group">
                     <label for="unload-date-storage">Дата выгрузки:</label>
-                    <input type="date" id="unload-date-storage" required pattern="\d{4}-\d{2}-\d{2}" maxlength="10">
+                    <input type="date" id="unload-date-storage" required>
                 </div>
 
                 <div class="input-group">
                     <label for="pickup-date">Дата вывоза:</label>
-                    <input type="date" id="pickup-date" required pattern="\d{4}-\d{2}-\d{2}" maxlength="10">
+                    <input type="date" id="pickup-date" required>
                 </div>
                 
-                <button onclick="calculateStorage()">РАССЧИТАТЬ</button>
+                <button id="calculate-storage-btn">РАССЧИТАТЬ</button>
                 
                 <div class="result">
                     <h3>Результат:</h3>
@@ -68,12 +76,24 @@
             </div>
             <div class="calculator-body">
                 <div class="input-group">
-                    <label for="demurrage-container-type">Тип контейнера:</label>
-                    <select id="demurrage-container-type">
-                        <option value="20dc">20 DC</option>
-                        <option value="40dc">40 DC</option>
-                        <option value="40href">40 HREF</option>
+                    <label for="demurrage-port">Порт:</label>
+                    <select id="demurrage-port">
+                        <option value="novorossiysk">Новороссийск</option>
+                        <option value="kaliningrad">Калининград</option>
+                        <option value="spb">Санкт-Петербург</option>
+                        <option value="vladivostok">Владивосток</option>
+                        <option value="vostochny">Бухта Врангеля</option>
                     </select>
+                </div>
+
+                <div class="input-group" id="demurrage-terminal-group" style="display: none;">
+                    <label for="demurrage-terminal">Терминал:</label>
+                    <select id="demurrage-terminal"></select>
+                </div>
+
+                <div class="input-group">
+                    <label for="demurrage-container-type">Тип контейнера:</label>
+                    <select id="demurrage-container-type"></select>
                 </div>
 
                 <div class="input-group" id="location-group">
@@ -89,25 +109,26 @@
                         <option value="novosibirsk">Новосибирск</option>
                         <option value="krasnoyarsk">Красноярск</option>
                         <option value="irkutsk">Иркутск</option>
+                        <option value="kaliningrad">Калининград</option>
                     </select>
                 </div>
                 
                 <div class="input-group" id="free-days-group" style="display: none;">
                     <label for="free-days">Количество дней свободного периода:</label>
-                    <input type="number" id="free-days" min="1" value="1">
+                    <input type="number" id="free-days" min="0" value="0">
                 </div>
                 
                 <div class="input-group">
                     <label for="unload-date-demurrage">Дата выгрузки:</label>
-                    <input type="date" id="unload-date-demurrage" required pattern="\d{4}-\d{2}-\d{2}" maxlength="10">
+                    <input type="date" id="unload-date-demurrage" required>
                 </div>
 
                 <div class="input-group">
                     <label for="return-date">Дата возврата порожнего:</label>
-                    <input type="date" id="return-date" required pattern="\d{4}-\d{2}-\d{2}" maxlength="10">
+                    <input type="date" id="return-date" required>
                 </div>
                 
-                <button onclick="calculateDemurrage()">РАССЧИТАТЬ</button>
+                <button id="calculate-demurrage-btn">РАССЧИТАТЬ</button>
                 
                 <div class="result">
                     <h3>Результат:</h3>
