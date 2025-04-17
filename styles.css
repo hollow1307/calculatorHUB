@@ -1,18 +1,13 @@
-/* Базовые настройки */
 :root {
-  /* Цвета */
   --primary-color: #102A5C;
   --secondary-color: #378EB2;
   --accent-color: #4AB3C7;
   --light-bg: #DAEFF3;
   --white: #FFFFFF;
   --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-
-  /* Размеры */
   --max-width: 1440px;
 }
 
-/* Общие стили */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -29,7 +24,6 @@ body {
   flex-direction: column;
 }
 
-/* Хедер */
 header {
   background-color: var(--white);
   padding: 1rem 0;
@@ -68,7 +62,6 @@ h1 {
   flex-grow: 1;
 }
 
-/* Основной контент */
 .main-container {
   display: grid;
   grid-template-columns: 1fr;
@@ -79,33 +72,6 @@ h1 {
   flex: 1;
 }
 
-/* Десктопная версия */
-@media (min-width: 769px) {
-  .main-container {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 1200px;
-  }
-  
-  .calculator {
-    min-width: 550px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  
-  .calculator-body {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  button {
-    margin-top: auto;
-  }
-}
-
-/* Калькуляторы */
 .calculator {
   background: var(--white);
   border-radius: 0.75rem;
@@ -134,7 +100,6 @@ h1 {
   padding: 1.5rem;
 }
 
-/* Формы */
 .input-group {
   margin-bottom: 1.25rem;
 }
@@ -164,7 +129,6 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(55, 142, 178, 0.2);
 }
 
-/* Кнопки */
 button {
   width: 100%;
   padding: 0.75rem;
@@ -190,7 +154,6 @@ button:hover {
   box-shadow: var(--shadow);
 }
 
-/* Результаты */
 .result {
   margin-top: 1.5rem;
   background: #f5f7fa;
@@ -211,7 +174,6 @@ button:hover {
   margin-top: 1rem;
 }
 
-/* Футер */
 footer {
   background: var(--primary-color);
   color: var(--white);
@@ -230,7 +192,17 @@ footer {
   font-size: 0.9rem;
 }
 
-/* Мобильная версия */
+@media (min-width: 769px) {
+  .main-container {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 1200px;
+  }
+  
+  .calculator {
+    min-width: 550px;
+  }
+}
+
 @media (max-width: 768px) {
   .header-container {
     flex-direction: column;
@@ -251,7 +223,6 @@ footer {
   .main-container {
     padding: 0 1rem;
     margin: 1rem auto;
-    max-width: 95%;
   }
 
   .calculator {
@@ -277,18 +248,5 @@ footer {
   .main-container,
   .footer-container {
     padding: 0 3rem;
-  }
-}
-
-/* Стили для нового поля выбора локации */
-#location-group {
-  display: block;
-}
-
-/* Для мобильной версии */
-@media (max-width: 768px) {
-  #location-group select,
-  #free-days-group input {
-    font-size: 0.9rem;
   }
 }
