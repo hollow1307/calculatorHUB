@@ -116,11 +116,11 @@ const storageRates = {
             { days: "18-999", rate: 180, currency: "USD" }
         ],
         "20fr": [
-            { days: "1-1", rate: 0, currency: "USD" },
+            { days: "1", rate: 0, currency: "USD" },
             { days: "2-999", rate: 120, currency: "USD" }
         ],
         "40fr": [
-            { days: "1-1", rate: 0, currency: "USD" },
+            { days: "1", rate: 0, currency: "USD" },
             { days: "2-999", rate: 220, currency: "USD" }
         ]
     }
@@ -258,7 +258,7 @@ const demurrageRates = {
         ]
     },
     "spb": {
-        "kts": {
+        "default": {
             "20dc": [
                 { days: "1-14", rate: 0 },
                 { days: "15-21", rate: 30 },
@@ -286,32 +286,28 @@ const demurrageRates = {
                 { days: "10-999", rate: 180 }
             ]
         },
-        "pkt_plp": {
+        "moscow": {
             "20dc": [
-                { days: "1-14", rate: 0 },
-                { days: "15-21", rate: 30 },
-                { days: "22-999", rate: 60 }
+                { days: "1-21", rate: 0 },
+                { days: "22-28", rate: 30 },
+                { days: "29-999", rate: 60 }
             ],
             "40dc": [
-                { days: "1-14", rate: 0 },
-                { days: "15-21", rate: 60 },
-                { days: "22-999", rate: 120 }
+                { days: "1-21", rate: 0 },
+                { days: "22-28", rate: 60 },
+                { days: "29-999", rate: 120 }
+            ]
+        },
+        "far": {
+            "20dc": [
+                { days: "1-28", rate: 0 },
+                { days: "29-35", rate: 30 },
+                { days: "36-999", rate: 60 }
             ],
-            "40href": [
-                { days: "1-2", rate: 30 },
-                { days: "3-9", rate: 75 },
-                { days: "10-16", rate: 100 },
-                { days: "17-999", rate: 300 }
-            ],
-            "20fr": [
-                { days: "1-2", rate: 0 },
-                { days: "3-9", rate: 45 },
-                { days: "10-999", rate: 90 }
-            ],
-            "40fr": [
-                { days: "1-2", rate: 0 },
-                { days: "3-9", rate: 90 },
-                { days: "10-999", rate: 180 }
+            "40dc": [
+                { days: "1-28", rate: 0 },
+                { days: "29-35", rate: 60 },
+                { days: "36-999", rate: 120 }
             ]
         }
     },
@@ -419,7 +415,6 @@ function updateStorageTerminals() {
     
     // Обновляем select с контейнерами
     const newContainerSelect = updateStorageContainerTypes(port);
-    // Если нужно сохранить ссылку на элемент:
     document.getElementById("storage-container-type").replaceWith(newContainerSelect);
 }
 
@@ -458,7 +453,7 @@ function updateStorageContainerTypes(port) {
         addOption(newSelect, '40fr', '40 FR / OT');
     }
     
-    // Добавляем обработчик, который только сбрасывает результаты
+    // Добавляем ОДИН обработчик
     newSelect.addEventListener('change', function() {
         document.getElementById("storage-details").innerHTML = "";
         document.getElementById("storage-total").textContent = "Итого: 0 ₽";
@@ -466,7 +461,6 @@ function updateStorageContainerTypes(port) {
     
     return newSelect;
 }
-
 
 // Новая функция для сброса результатов
 function resetStorageResults() {
@@ -550,26 +544,50 @@ function updateDemurrageContainerTypes(port, terminal) {
     const containerTypeSelect = document.getElementById("demurrage-container-type");
     const freeDaysGroup = document.getElementById("free-days-group");
     const locationGroup = document.getElementById("location-group");
+    const location = document.getElementById("container-location").value;
     
     containerTypeSelect.innerHTML = '';
     freeDaysGroup.style.display = 'none';
     document.getElementById('free-days').value = '0';
-    
-    // Определяем, нужно ли скрывать место сдачи для текущего порта
-    const hideLocationFor40Href = ['novorossiysk', 'spb', 'vostochny'].includes(port);
-    
-    if (port === 'spb') {
-        addOption(containerTypeSelect, '20dc', '20 DC');
-        addOption(containerTypeSelect, '40dc', '40 DC');
-        addOption(containerTypeSelect, '40href', '40 HREF');
-        addOption(containerTypeSelect, '20fr', '20 FR / OT');
-        addOption(containerTypeSelect, '40fr', '40 FR / OT');
-    } 
-    else if (port === 'novorossiysk') {
-        addOption(containerTypeSelect, '20dc', '20 DC');
-        addOption(containerTypeSelect, '40dc', '40 DC');
-        addOption(containerTypeSelect, '40href', '40 HREF');
-    } 
+
+    // Управление видимостью места сдачи
+    locationGroup.style.display = port === 'kaliningrad' ? 'none' : 'block';
+
+    // 1. Логика для Новороссийска
+    if (port === 'novorossiysk') {
+        if (location === 'novorossiysk' || location === 'rostov') {
+            addOption(containerTypeSelect, '20dc', '20 DC');
+            addOption(containerTypeSelect, '40dc', '40 DC');
+            addOption(containerTypeSelect, '40href', '40 HREF');
+        } else {
+            addOption(containerTypeSelect, '20dc', '20 DC');
+            addOption(containerTypeSelect, '40dc', '40 DC');
+        }
+    }
+    // 2. Логика для Бухты Врангеля
+    else if (port === 'vostochny') {
+        if (location === 'vladivostok' || location === 'wrangell') {
+            addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
+            addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
+            addOption(containerTypeSelect, '40href', '40 HREF');
+        } else {
+            addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
+            addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
+        }
+    }
+    // Остальные порты
+    else if (port === 'spb') {
+        if (location === 'spb') {
+            addOption(containerTypeSelect, '20dc', '20 DC');
+            addOption(containerTypeSelect, '40dc', '40 DC');
+            addOption(containerTypeSelect, '40href', '40 HREF');
+            addOption(containerTypeSelect, '20fr', '20 FR / OT');
+            addOption(containerTypeSelect, '40fr', '40 FR / OT');
+        } else {
+            addOption(containerTypeSelect, '20dc', '20 DC');
+            addOption(containerTypeSelect, '40dc', '40 DC');
+        }
+    }
     else if (port === 'kaliningrad') {
         addOption(containerTypeSelect, '20dc', '20 DC');
         addOption(containerTypeSelect, '40dc', '40 DC / HC');
@@ -578,24 +596,16 @@ function updateDemurrageContainerTypes(port, terminal) {
         addOption(containerTypeSelect, '40fr', '40 FR / OT');
         addOption(containerTypeSelect, 'imo20dc', 'IMO 20 DC');
         addOption(containerTypeSelect, 'imo40dc', 'IMO 40 DC / HC');
-    } 
+    }
     else if (port === 'vladivostok') {
         addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
         addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
     }
-    else if (port === 'vostochny') {
-        addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
-        addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
-        addOption(containerTypeSelect, '40href', '40 HREF');
-    }
-    
-    // Скрываем место сдачи для 40HREF в указанных портах (кроме Калининграда)
-    if (hideLocationFor40Href) {
-        containerTypeSelect.addEventListener('change', function() {
-            locationGroup.style.display = 
-                (this.value === '40href' && port !== 'kaliningrad') ? 'none' : 'block';
-        });
-    }
+
+    // Обработчик изменения типа контейнера
+    containerTypeSelect.addEventListener('change', function() {
+        freeDaysGroup.style.display = this.value === '40href' ? 'block' : 'none';
+    });
 }
 
 // Вспомогательная функция добавления опции
@@ -690,7 +700,6 @@ function calculateDemurrage() {
     const timeDiff = returnDate - unloadDate;
     const totalDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
     
-    // Учет свободных дней ТОЛЬКО для 40 HREF
     let freeDays = 0;
     if (containerType === '40href') {
         freeDays = parseInt(freeDaysInput.value) || 0;
@@ -701,32 +710,65 @@ function calculateDemurrage() {
         rates = demurrageRates[port][containerType];
     } 
     else if (port === 'spb') {
-        const terminalKey = terminal === 'ПКТ/ПЛП' ? 'pkt_plp' : 'kts';
-        rates = demurrageRates[port][terminalKey][containerType];
-    } 
-    else if (port === 'vladivostok' || port === 'vostochny') {
-        let terminalKey;
-        if (port === 'vladivostok') {
-            terminalKey = 'vmpp';
-        } else {
-            terminalKey = 'vostochny';
+        let rateGroup = 'default';
+        if (['moscow', 'novorossiysk', 'rostov', 'samara', 'tolyatti'].includes(location)) {
+            rateGroup = 'moscow';
+        } else if (['ekaterinburg', 'novosibirsk', 'krasnoyarsk', 'irkutsk'].includes(location)) {
+            rateGroup = 'far';
         }
-
-        // Для Бухты Врангеля используем тарифы из vostochny
-        rates = demurrageRates['vostochny']['vostochny'][containerType];
+        rates = demurrageRates[port][rateGroup][containerType] || 
+               demurrageRates[port]['default'][containerType];
     } 
+    else if (port === 'vladivostok') {
+        // Обработка для порта Владивосток
+        if (location === 'vladivostok' || location === 'vostochny') {
+            // Локальные тарифы (Владивосток и Порт Восточный)
+            rates = demurrageRates[port]['vmpp'][containerType];
+        } else {
+            // Тарифы для других мест сдачи
+            let rateGroup = 'default';
+            if (['moscow', 'novorossiysk', 'rostov', 'samara', 'tolyatti', 'kaliningrad', 'spb'].includes(location)) {
+                rateGroup = 'moscow';
+            } else if (['ekaterinburg', 'novosibirsk', 'krasnoyarsk', 'irkutsk'].includes(location)) {
+                rateGroup = 'far';
+            }
+            rates = demurrageRates[port]['vmpp'][rateGroup]?.[containerType];
+        }
+    }
+    else if (port === 'vostochny') {
+        // Обработка для Бухты Врангеля
+        if (containerType === '40href') {
+            rates = demurrageRates[port]['vostochny']['40href'];
+        } 
+        else if (location === 'vladivostok' || location === 'wrangell') {
+            // Локальные тарифы (Владивосток и Бухта Врангеля)
+            rates = demurrageRates[port]['vostochny'][containerType];
+        } else {
+            // Тарифы для других мест сдачи
+            let rateGroup = 'default';
+            if (['moscow', 'novorossiysk', 'rostov', 'samara', 'tolyatti', 'kaliningrad', 'spb'].includes(location)) {
+                rateGroup = 'moscow';
+            } else if (['ekaterinburg', 'novosibirsk', 'krasnoyarsk', 'irkutsk'].includes(location)) {
+                rateGroup = 'far';
+            }
+            rates = demurrageRates[port]['vostochny'][rateGroup]?.[containerType];
+        }
+    }
     else if (port === 'novorossiysk') {
-        // Для 40HREF в Новороссийске используем default тарифы
         if (containerType === '40href') {
             rates = demurrageRates[port]['default'][containerType];
         } else if (['novorossiysk', 'rostov'].includes(location)) {
             rates = demurrageRates[port][location]?.[containerType] || 
                    demurrageRates[port]['default'][containerType];
         } else {
-            const rateGroup = ['moscow', 'spb', 'tolyatti', 'samara'].includes(location) 
-                ? 'moscow' 
-                : (['ekaterinburg', 'novosibirsk', 'krasnoyarsk', 'irkutsk'].includes(location) ? 'far' : 'default');
-            rates = demurrageRates[port][rateGroup][containerType];
+            let rateGroup = 'default';
+            if (['moscow', 'spb', 'tolyatti', 'samara'].includes(location)) {
+                rateGroup = 'moscow';
+            } else if (['ekaterinburg', 'novosibirsk', 'krasnoyarsk', 'irkutsk', 'kaliningrad'].includes(location)) {
+                rateGroup = 'far';
+            }
+            rates = demurrageRates[port][rateGroup][containerType] || 
+                   demurrageRates[port]['default'][containerType];
         }
     }
     
@@ -738,18 +780,14 @@ function calculateDemurrage() {
     let totalCost = 0;
     let detailsHTML = "<ul>";
     
-    // Правильный расчет с учетом свободных дней для 40HREF
     for (let day = 1; day <= totalDays; day++) {
         let dailyRate = 0;
         
-        // Для 40HREF учитываем свободные дни
         if (containerType === '40href' && day <= freeDays) {
             detailsHTML += `<li>День ${day}: 0 USD (свободный день)</li>`;
             continue;
         }
         
-        // Находим подходящий тариф для текущего дня
-        // Для 40HREF учитываем фактический день хранения (без вычета свободных дней)
         const rateDay = containerType === '40href' ? day : day;
         
         for (const rate of rates) {
@@ -785,6 +823,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("storage-details").innerHTML = "";
         document.getElementById("storage-total").textContent = "Итого: 0 ₽";
     });
+    
 
     // Обработчики для калькулятора демереджа
     document.getElementById('demurrage-port').addEventListener('change', function() {
@@ -802,6 +841,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     document.getElementById('container-location').addEventListener('change', function() {
+        const port = document.getElementById("demurrage-port").value;
+        if (port === 'novorossiysk' || port === 'vostochny' || port === 'spb') {
+            updateDemurrageContainerTypes(
+                port, 
+                document.getElementById("demurrage-terminal").value
+            );
+        }
         document.getElementById("demurrage-details").innerHTML = "";
         document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
     });
@@ -809,4 +855,4 @@ document.addEventListener('DOMContentLoaded', () => {
      // Обработчики для кнопок расчета
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
- });
+});
