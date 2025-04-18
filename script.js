@@ -116,11 +116,11 @@ const storageRates = {
             { days: "18-999", rate: 180, currency: "USD" }
         ],
         "20fr": [
-            { days: "1", rate: 0, currency: "USD" },
+            { days: "1-1", rate: 0, currency: "USD" },
             { days: "2-999", rate: 120, currency: "USD" }
         ],
         "40fr": [
-            { days: "1", rate: 0, currency: "USD" },
+            { days: "1-1", rate: 0, currency: "USD" },
             { days: "2-999", rate: 220, currency: "USD" }
         ]
     }
