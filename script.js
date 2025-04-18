@@ -406,43 +406,72 @@ function validateDateInput(dateInput) {
     return true;
 }
 
-// Обновление терминалов для хранения
+// Обновленная функция updateStorageTerminals()
 function updateStorageTerminals() {
     const port = document.getElementById("storage-port").value;
     const terminalSelect = document.getElementById("storage-terminal");
     terminalSelect.innerHTML = '';
     document.getElementById("storage-terminal-group").style.display = 'none';
-    updateStorageContainerTypes(port);
+    
+    // Сбрасываем результаты
+    document.getElementById("storage-details").innerHTML = "";
+    document.getElementById("storage-total").textContent = "Итого: 0 ₽";
+    
+    // Обновляем select с контейнерами
+    const newContainerSelect = updateStorageContainerTypes(port);
+    // Если нужно сохранить ссылку на элемент:
+    document.getElementById("storage-container-type").replaceWith(newContainerSelect);
 }
 
-// Обновление типов контейнеров для хранения
+// Обновленная функция updateStorageContainerTypes()
 function updateStorageContainerTypes(port) {
     const containerTypeSelect = document.getElementById("storage-container-type");
-    containerTypeSelect.innerHTML = '';
+    
+    // Удаляем все предыдущие обработчики change
+    const newSelect = containerTypeSelect.cloneNode(true);
+    containerTypeSelect.parentNode.replaceChild(newSelect, containerTypeSelect);
+    
+    // Очищаем и заполняем заново
+    newSelect.innerHTML = '';
     
     if (port === 'novorossiysk') {
-        addOption(containerTypeSelect, '20dc', '20 DC');
-        addOption(containerTypeSelect, '40dc', '40 DC');
-        addOption(containerTypeSelect, '40href', '40 HREF');
-        addOption(containerTypeSelect, 'imo20dc', 'IMO 20 DC');
-        addOption(containerTypeSelect, 'imo40dc', 'IMO 40 DC');
+        addOption(newSelect, '20dc', '20 DC');
+        addOption(newSelect, '40dc', '40 DC');
+        addOption(newSelect, '40href', '40 HREF');
+        addOption(newSelect, 'imo20dc', 'IMO 20 DC');
+        addOption(newSelect, 'imo40dc', 'IMO 40 DC');
     } 
     else if (port === 'kaliningrad') {
-        addOption(containerTypeSelect, '20dc', '20 DC / FR / OT');
-        addOption(containerTypeSelect, '40dc', '40 DC / FR / OT');
-        addOption(containerTypeSelect, '40href', '40 HREF');
-        addOption(containerTypeSelect, 'imo20dc', 'IMO 20 DC');
-        addOption(containerTypeSelect, 'imo40dc', 'IMO 40 DC');
+        addOption(newSelect, '20dc', '20 DC / FR / OT');
+        addOption(newSelect, '40dc', '40 DC / FR / OT');
+        addOption(newSelect, '40href', '40 HREF');
+        addOption(newSelect, 'imo20dc', 'IMO 20 DC');
+        addOption(newSelect, 'imo40dc', 'IMO 40 DC');
     } 
     else if (port === 'spb') {
-        addOption(containerTypeSelect, '20dc', '20 DC');
-        addOption(containerTypeSelect, '40dc', '40 DC / HC');
-        addOption(containerTypeSelect, '40href', '40 HREF');
-        addOption(containerTypeSelect, 'imo20dc', 'IMO 20 DC');
-        addOption(containerTypeSelect, 'imo40dc', 'IMO 40 DC / HC');
-        addOption(containerTypeSelect, '20fr', '20 FR / OT');
-        addOption(containerTypeSelect, '40fr', '40 FR / OT');
+        addOption(newSelect, '20dc', '20 DC');
+        addOption(newSelect, '40dc', '40 DC / HC');
+        addOption(newSelect, '40href', '40 HREF');
+        addOption(newSelect, 'imo20dc', 'IMO 20 DC');
+        addOption(newSelect, 'imo40dc', 'IMO 40 DC / HC');
+        addOption(newSelect, '20fr', '20 FR / OT');
+        addOption(newSelect, '40fr', '40 FR / OT');
     }
+    
+    // Добавляем обработчик, который только сбрасывает результаты
+    newSelect.addEventListener('change', function() {
+        document.getElementById("storage-details").innerHTML = "";
+        document.getElementById("storage-total").textContent = "Итого: 0 ₽";
+    });
+    
+    return newSelect;
+}
+
+
+// Новая функция для сброса результатов
+function resetStorageResults() {
+    document.getElementById("storage-details").innerHTML = "";
+    document.getElementById("storage-total").textContent = "Итого: 0 ₽";
 }
 
 // Обновление терминалов для демереджа
@@ -740,7 +769,7 @@ function calculateDemurrage() {
     document.getElementById("demurrage-total").textContent = `Итого: ${totalCost.toLocaleString()} USD`;
 }
 
-// Инициализация при загрузке
+// Обновленная инициализация
 document.addEventListener('DOMContentLoaded', () => {
     updateStorageTerminals();
     updateDemurrageTerminals();
@@ -752,7 +781,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStorageTerminals();
     });
     
-    document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
+    document.getElementById('storage-container-type').addEventListener('change', function() {
+        document.getElementById("storage-details").innerHTML = "";
+        document.getElementById("storage-total").textContent = "Итого: 0 ₽";
+    });
 
     // Обработчики для калькулятора демереджа
     document.getElementById('demurrage-port').addEventListener('change', function() {
@@ -774,5 +806,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
     });
     
-    document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
-});
+     // Обработчики для кнопок расчета
+     document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
+     document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
+ });
