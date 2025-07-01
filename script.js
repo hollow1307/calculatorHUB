@@ -542,13 +542,13 @@ function updateDemurrageTerminals() {
 // Обновление типов контейнеров для демереджа
 function updateDemurrageContainerTypes(port, terminal) {
     const containerTypeSelect = document.getElementById("demurrage-container-type");
-    const freeDaysGroup = document.getElementById("free-days-group");
+    const freeDaysGroup = document.getElementById("free-days-demurrage-group");
     const locationGroup = document.getElementById("location-group");
     const location = document.getElementById("container-location").value;
     
     containerTypeSelect.innerHTML = '';
     freeDaysGroup.style.display = 'none';
-    document.getElementById('free-days').value = '0';
+    document.getElementById('free-days-demurrage').value = '0';
 
     // Управление видимостью места сдачи
     locationGroup.style.display = port === 'kaliningrad' ? 'none' : 'block';
@@ -604,7 +604,8 @@ function updateDemurrageContainerTypes(port, terminal) {
 
     // Обработчик изменения типа контейнера
     containerTypeSelect.addEventListener('change', function() {
-        freeDaysGroup.style.display = this.value === '40href' ? 'block' : 'none';
+        document.getElementById("demurrage-details").innerHTML = "";
+        document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
     });
 }
 
@@ -651,12 +652,22 @@ function calculateStorage() {
         return;
     }
     
+    const freeDays = document.getElementById('special-conditions-storage').checked 
+        ? parseInt(document.getElementById('free-days-storage').value) || 0 
+        : 0;
+    
     let totalCost = 0;
     let currency = '₽';
     let detailsHTML = "<ul>";
     
     for (let day = 1; day <= totalDays; day++) {
         let dailyRate = 0;
+        
+        if (day <= freeDays) {
+            detailsHTML += `<li>День ${day}: 0 ${currency} (свободный день)</li>`;
+            continue;
+        }
+        
         for (const rate of rates) {
             const [min, max] = rate.days.split('-').map(Number);
             if (day >= min && (max ? day <= max : true)) {
@@ -665,6 +676,7 @@ function calculateStorage() {
                 break;
             }
         }
+        
         totalCost += dailyRate;
         detailsHTML += `<li>День ${day}: ${dailyRate.toLocaleString()} ${currency}</li>`;
     }
@@ -685,7 +697,6 @@ function calculateDemurrage() {
     const location = document.getElementById("container-location").value;
     const unloadDateInput = document.getElementById("unload-date-demurrage");
     const returnDateInput = document.getElementById("return-date");
-    const freeDaysInput = document.getElementById("free-days");
     
     if (!validateDateInput(unloadDateInput) || !validateDateInput(returnDateInput)) return;
     
@@ -700,10 +711,9 @@ function calculateDemurrage() {
     const timeDiff = returnDate - unloadDate;
     const totalDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
     
-    let freeDays = 0;
-    if (containerType === '40href') {
-        freeDays = parseInt(freeDaysInput.value) || 0;
-    }
+    let freeDays = document.getElementById('special-conditions-demurrage').checked 
+        ? parseInt(document.getElementById('free-days-demurrage').value) || 0 
+        : 0;
     
     let rates;
     if (port === 'kaliningrad') {
@@ -783,7 +793,7 @@ function calculateDemurrage() {
     for (let day = 1; day <= totalDays; day++) {
         let dailyRate = 0;
         
-        if (containerType === '40href' && day <= freeDays) {
+        if (day <= freeDays) {
             detailsHTML += `<li>День ${day}: 0 USD (свободный день)</li>`;
             continue;
         }
@@ -824,6 +834,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("storage-total").textContent = "Итого: 0 ₽";
     });
     
+    document.getElementById('special-conditions-storage').addEventListener('change', function() {
+        document.getElementById('free-days-storage-group').style.display = 
+            this.checked ? 'block' : 'none';
+    });
 
     // Обработчики для калькулятора демереджа
     document.getElementById('demurrage-port').addEventListener('change', function() {
@@ -836,8 +850,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('demurrage-container-type').addEventListener('change', function() {
         document.getElementById("demurrage-details").innerHTML = "";
         document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
-        document.getElementById('free-days-group').style.display = 
-            this.value === '40href' ? 'block' : 'none';
+    });
+    
+    document.getElementById('special-conditions-demurrage').addEventListener('change', function() {
+        document.getElementById('free-days-demurrage-group').style.display = 
+            this.checked ? 'block' : 'none';
     });
     
     document.getElementById('container-location').addEventListener('change', function() {
