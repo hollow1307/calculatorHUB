@@ -60,6 +60,17 @@
                     <input type="date" id="pickup-date" required>
                 </div>
                 
+                <div class="input-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="special-conditions-storage"> Специальные условия
+                    </label>
+                </div>
+
+                <div class="input-group" id="free-days-storage-group" style="display: none;">
+                    <label for="free-days-storage">Количество дней свободного периода:</label>
+                    <input type="number" id="free-days-storage" min="0" value="0">
+                </div>
+                
                 <button id="calculate-storage-btn">РАССЧИТАТЬ</button>
                 
                 <div class="result">
@@ -71,72 +82,78 @@
         </div>
 
         <div class="calculator">
-            <div class="calculator-header">
-                <h2>Использование оборудования линии в порту (USD)</h2>
-            </div>
-            <div class="calculator-body">
-                <div class="input-group">
-                    <label for="demurrage-port">Порт:</label>
-                    <select id="demurrage-port">
-                        <option value="novorossiysk">Новороссийск</option>
-                        <option value="kaliningrad">Калининград</option>
-                        <option value="spb">Санкт-Петербург</option>
-                        <option value="vladivostok">Владивосток</option>
-                        <option value="vostochny">Бухта Врангеля</option>
-                    </select>
-                </div>
-
-                <div class="input-group" id="demurrage-terminal-group" style="display: none;">
-                    <label for="demurrage-terminal">Терминал:</label>
-                    <select id="demurrage-terminal"></select>
-                </div>
-
-                <div class="input-group">
-                    <label for="demurrage-container-type">Тип контейнера:</label>
-                    <select id="demurrage-container-type"></select>
-                </div>
-
-                <div class="input-group" id="location-group">
-                    <label for="container-location">Место сдачи контейнера:</label>
-                    <select id="container-location">
-                        <option value="novorossiysk">Новороссийск</option>
-                        <option value="rostov">Ростов-на-Дону</option>
-                        <option value="moscow">Москва</option>
-                        <option value="spb">Санкт-Петербург</option>
-                        <option value="tolyatti">Тольятти</option>
-                        <option value="samara">Самара</option>
-                        <option value="ekaterinburg">Екатеринбург</option>
-                        <option value="novosibirsk">Новосибирск</option>
-                        <option value="krasnoyarsk">Красноярск</option>
-                        <option value="irkutsk">Иркутск</option>
-                        <option value="kaliningrad">Калининград</option>
-                    </select>
-                </div>
-                
-                <div class="input-group" id="free-days-group" style="display: none;">
-                    <label for="free-days">Количество дней свободного периода:</label>
-                    <input type="number" id="free-days" min="0" value="0">
-                </div>
-                
-                <div class="input-group">
-                    <label for="unload-date-demurrage">Дата выгрузки:</label>
-                    <input type="date" id="unload-date-demurrage" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="return-date">Дата возврата порожнего:</label>
-                    <input type="date" id="return-date" required>
-                </div>
-                
-                <button id="calculate-demurrage-btn">РАССЧИТАТЬ</button>
-                
-                <div class="result">
-                    <h3>Результат:</h3>
-                    <div id="demurrage-details"></div>
-                    <p class="total-cost" id="demurrage-total">Итого: 0 USD</p>
-                </div>
-            </div>
+    <div class="calculator-header">
+        <h2>Использование оборудования линии в порту (USD)</h2>
+    </div>
+    <div class="calculator-body">
+        <div class="input-group">
+            <label for="demurrage-port">Порт:</label>
+            <select id="demurrage-port">
+                <option value="novorossiysk">Новороссийск</option>
+                <option value="kaliningrad">Калининград</option>
+                <option value="spb">Санкт-Петербург</option>
+                <option value="vladivostok">Владивосток</option>
+                <option value="vostochny">Бухта Врангеля</option>
+            </select>
         </div>
+
+        <div class="input-group" id="demurrage-terminal-group" style="display: none;">
+            <label for="demurrage-terminal">Терминал:</label>
+            <select id="demurrage-terminal"></select>
+        </div>
+
+        <div class="input-group">
+            <label for="demurrage-container-type">Тип контейнера:</label>
+            <select id="demurrage-container-type"></select>
+        </div>
+
+        <div class="input-group" id="location-group">
+            <label for="container-location">Место сдачи контейнера:</label>
+            <select id="container-location">
+                <option value="novorossiysk">Новороссийск</option>
+                <option value="rostov">Ростов-на-Дону</option>
+                <option value="moscow">Москва</option>
+                <option value="spb">Санкт-Петербург</option>
+                <option value="tolyatti">Тольятти</option>
+                <option value="samara">Самара</option>
+                <option value="ekaterinburg">Екатеринбург</option>
+                <option value="novosibirsk">Новосибирск</option>
+                <option value="krasnoyarsk">Красноярск</option>
+                <option value="irkutsk">Иркутск</option>
+                <option value="kaliningrad">Калининград</option>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <label for="unload-date-demurrage">Дата выгрузки:</label>
+            <input type="date" id="unload-date-demurrage" required>
+        </div>
+
+        <div class="input-group">
+            <label for="return-date">Дата возврата порожнего:</label>
+            <input type="date" id="return-date" required>
+        </div>
+        
+        <div class="input-group">
+            <label class="checkbox-label">
+                <input type="checkbox" id="special-conditions-demurrage"> Специальные условия
+            </label>
+        </div>
+
+        <div class="input-group" id="free-days-demurrage-group" style="display: none;">
+            <label for="free-days-demurrage">Количество дней свободного периода:</label>
+            <input type="number" id="free-days-demurrage" min="0" value="0">
+        </div>
+        
+        <button id="calculate-demurrage-btn">РАССЧИТАТЬ</button>
+        
+        <div class="result">
+            <h3>Результат:</h3>
+            <div id="demurrage-details"></div>
+            <p class="total-cost" id="demurrage-total">Итого: 0 USD</p>
+        </div>
+    </div>
+</div>
     </main>
 
     <footer>
