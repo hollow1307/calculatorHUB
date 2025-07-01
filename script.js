@@ -12,36 +12,36 @@ const storageRates = {
     "novorossiysk": {
         "20dc": [
             { days: "1-5", rate: 0 },
-            { days: "6-8", rate: 1650 },
-            { days: "9-11", rate: 2200 },
-            { days: "12-14", rate: 3300 },
-            { days: "15-999", rate: 4950 }
+            { days: "6-8", rate: 1800 },
+            { days: "9-11", rate: 2400 },
+            { days: "12-14", rate: 3600 },
+            { days: "15-999", rate: 5450 }
         ],
         "40dc": [
             { days: "1-5", rate: 0 },
-            { days: "6-8", rate: 3300 },
-            { days: "9-11", rate: 4400 },
-            { days: "12-14", rate: 6600 },
-            { days: "15-999", rate: 9900 }
+            { days: "6-8", rate: 3600 },
+            { days: "9-11", rate: 4800 },
+            { days: "12-14", rate: 7200 },
+            { days: "15-999", rate: 10900 }
         ],
         "40href": [
-            { days: "1-5", rate: 4200 },
-            { days: "6-10", rate: 8400 },
-            { days: "11-999", rate: 10500 }
+            { days: "1-5", rate: 4600 },
+            { days: "6-10", rate: 9200 },
+            { days: "11-999", rate: 11500 }
         ],
         "imo20dc": [
             { days: "1-5", rate: 0 },
-            { days: "6-8", rate: 2750 },
-            { days: "9-11", rate: 3300 },
-            { days: "12-14", rate: 4950 },
-            { days: "15-999", rate: 7200 }
+            { days: "6-8", rate: 3000 },
+            { days: "9-11", rate: 3600 },
+            { days: "12-14", rate: 5400 },
+            { days: "15-999", rate: 7900 }
         ],
         "imo40dc": [
             { days: "1-5", rate: 0 },
-            { days: "6-8", rate: 5500 },
-            { days: "9-11", rate: 6600 },
-            { days: "12-14", rate: 9900 },
-            { days: "15-999", rate: 14400 }
+            { days: "6-8", rate: 6000 },
+            { days: "9-11", rate: 7200 },
+            { days: "12-14", rate: 10800 },
+            { days: "15-999", rate: 15800 }
         ]
     },
     "kaliningrad": {
