@@ -42,6 +42,12 @@ const storageRates = {
             { days: "9-11", rate: 7200 },
             { days: "12-14", rate: 10800 },
             { days: "15-999", rate: 15800 }
+        ],
+         "oog20": [
+            { days: "1-999", rate: 8800 }
+        ],
+        "oog40": [
+            { days: "1-999", rate: 17600 }
         ]
     },
     "kaliningrad": {
@@ -430,11 +436,13 @@ function updateStorageContainerTypes(port) {
     newSelect.innerHTML = '';
     
     if (port === 'novorossiysk') {
-        addOption(newSelect, '20dc', '20 DC');
-        addOption(newSelect, '40dc', '40 DC');
+        addOption(newSelect, '20dc', '20 DC/TANK');
+        addOption(newSelect, '40dc', '40 DC/HC/TANK');
         addOption(newSelect, '40href', '40 HREF');
-        addOption(newSelect, 'imo20dc', 'IMO 20 DC');
-        addOption(newSelect, 'imo40dc', 'IMO 40 DC');
+        addOption(newSelect, 'imo20dc', 'IMO 20 DC/TANK');
+        addOption(newSelect, 'imo40dc', 'IMO 40 DC/TANK');
+        addOption(newSelect, 'oog20', 'OOG/IG:20 FR/OT');
+        addOption(newSelect, 'oog40', 'OOG/IG:40 FR/OT');
     } 
     else if (port === 'kaliningrad') {
         addOption(newSelect, '20dc', '20 DC / FR / OT');
