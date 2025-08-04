@@ -651,12 +651,6 @@ function updateDemurrageContainerTypes(port, terminal) {
         addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
     }
 
-    // Обработчик изменения типа контейнера
-    containerTypeSelect.addEventListener('change', function() {
-        document.getElementById("demurrage-details").innerHTML = "";
-        document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
-    });
-}
 
 // Вспомогательная функция добавления опции
 function addOption(selectElement, value, text) {
@@ -922,5 +916,6 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
