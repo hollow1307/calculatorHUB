@@ -105,6 +105,9 @@ const storageRates = {
         "40href": [
             { days: "1-999", rate: 60, currency: "USD" }
         ],
+         "imo40href": [
+            { days: "1-999", rate: 90, currency: "USD" }
+        ],
         "imo20dc": [
             { days: "1-3", rate: 0, currency: "USD" },
             { days: "4-5", rate: 45, currency: "USD" },
@@ -347,6 +350,12 @@ const demurrageRates = {
                 { days: "1-10", rate: 0 },
                 { days: "11-999", rate: 20 }
             ],
+            "40href": [
+                { days: "1-7", rate: 0 },
+                { days: "8-14", rate: 60 },
+                { days: 15-25", rate: 120 },
+                { days: "26-999", rate: 220 }
+            ],
             "far": {
                 "20dc": [
                     { days: "1-40", rate: 0 },
@@ -458,27 +467,28 @@ function updateStorageContainerTypes(port) {
     if (port === 'novorossiysk') {
         addOption(newSelect, '20dc', '20 DC/TANK');
         addOption(newSelect, '40dc', '40 DC/HC/TANK');
-        addOption(newSelect, '40href', '40 HREF');
+        addOption(newSelect, '40href', '40 HREEF');
         addOption(newSelect, 'imo20dc', 'IMO 20 DC/TANK');
         addOption(newSelect, 'imo40dc', 'IMO 40 DC/TANK');
         addOption(newSelect, 'oog20', 'OOG/IG:20 FR/OT');
         addOption(newSelect, 'oog40', 'OOG/IG:40 FR/OT');
     } 
     else if (port === 'kaliningrad') {
-        addOption(newSelect, '20dc', '20 DC / FR / OT');
-        addOption(newSelect, '40dc', '40 DC / FR / OT');
-        addOption(newSelect, '40href', '40 HREF');
+        addOption(newSelect, '20dc', '20 DC/FR/OT');
+        addOption(newSelect, '40dc', '40 DC/HC/FR/OT');
+        addOption(newSelect, '40href', '40 HREEF');
         addOption(newSelect, 'imo20dc', 'IMO 20 DC');
         addOption(newSelect, 'imo40dc', 'IMO 40 DC');
     } 
     else if (port === 'spb') {
         addOption(newSelect, '20dc', '20 DC');
         addOption(newSelect, '40dc', '40 DC / HC');
-        addOption(newSelect, '40href', '40 HREF');
+        addOption(newSelect, '40href', '40 HREEF');
+        addOption(newSelect, 'imo40href', 'IMO 40 HREEF');
         addOption(newSelect, 'imo20dc', 'IMO 20 DC');
         addOption(newSelect, 'imo40dc', 'IMO 40 DC / HC');
-        addOption(newSelect, '20fr', '20 FR / OT');
-        addOption(newSelect, '40fr', '40 FR / OT');
+        addOption(newSelect, '20fr', '20 FR/OT');
+        addOption(newSelect, '40fr', '40 FR/OT');
     }
     
     // Добавляем ОДИН обработчик
@@ -600,7 +610,7 @@ function updateDemurrageContainerTypes(port, terminal) {
         if (location === 'vladivostok' || location === 'wrangell') {
             addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
             addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
-            addOption(containerTypeSelect, '40href', '40 HREF');
+            addOption(containerTypeSelect, '40href', '40 HREEF');
         } else {
             addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
             addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
@@ -610,10 +620,10 @@ function updateDemurrageContainerTypes(port, terminal) {
     else if (port === 'spb') {
         if (location === 'spb') {
             addOption(containerTypeSelect, '20dc', '20 DC');
-            addOption(containerTypeSelect, '40dc', '40 DC');
-            addOption(containerTypeSelect, '40href', '40 HREF');
-            addOption(containerTypeSelect, '20fr', '20 FR / OT');
-            addOption(containerTypeSelect, '40fr', '40 FR / OT');
+            addOption(containerTypeSelect, '40dc', '40 DC/HC');
+            addOption(containerTypeSelect, '40href', '40 HREEF');
+            addOption(containerTypeSelect, '20fr', '20 FR/OT');
+            addOption(containerTypeSelect, '40fr', '40 FR/OT');
         } else {
             addOption(containerTypeSelect, '20dc', '20 DC');
             addOption(containerTypeSelect, '40dc', '40 DC');
@@ -621,9 +631,9 @@ function updateDemurrageContainerTypes(port, terminal) {
     }
     else if (port === 'kaliningrad') {
         addOption(containerTypeSelect, '20dc', '20 DC');
-        addOption(containerTypeSelect, '40dc', '40 DC / HC');
-        addOption(containerTypeSelect, '40href', '40 HREF');
-        addOption(containerTypeSelect, '20fr', '20 FR / OT');
+        addOption(containerTypeSelect, '40dc', '40 DC/HC');
+        addOption(containerTypeSelect, '40href', '40 HREEF');
+        addOption(containerTypeSelect, '20fr', '20 FR/OT');
         addOption(containerTypeSelect, '40fr', '40 FR / OT');
         addOption(containerTypeSelect, 'imo20dc', 'IMO 20 DC');
         addOption(containerTypeSelect, 'imo40dc', 'IMO 40 DC / HC');
@@ -631,6 +641,7 @@ function updateDemurrageContainerTypes(port, terminal) {
     else if (port === 'vladivostok') {
         addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
         addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
+        addOption(containerTypeSelect, '40href', '40 HREEF');
     }
 
     // Новая функция для обновления мест сдачи для спец. контейнеров
@@ -932,4 +943,5 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
