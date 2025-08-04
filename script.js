@@ -572,7 +572,7 @@ function updateDemurrageContainerTypes(port, terminal) {
     const containerTypeSelect = document.getElementById("demurrage-container-type");
     const freeDaysGroup = document.getElementById("free-days-demurrage-group");
     const locationGroup = document.getElementById("location-group");
-    const location = document.getElementById("container-location").value;
+    const locationSelect = document.getElementById("container-location");
     
     containerTypeSelect.innerHTML = '';
     freeDaysGroup.style.display = 'none';
@@ -583,6 +583,10 @@ function updateDemurrageContainerTypes(port, terminal) {
 
     // 1. Логика для Новороссийска
     if (port === 'novorossiysk') {
+        // Сохраняем текущий тип контейнера и значение места сдачи
+        const currentContainerType = containerTypeSelect.value;
+        const currentLocation = locationSelect.value;
+        
         if (location === 'novorossiysk' || location === 'rostov') {
             addOption(containerTypeSelect, '20dc', '20 DC');
             addOption(containerTypeSelect, '40dc', '40 DC/HC');
@@ -592,6 +596,11 @@ function updateDemurrageContainerTypes(port, terminal) {
         } else {
             addOption(containerTypeSelect, '20dc', '20 DC');
             addOption(containerTypeSelect, '40dc', '40 DC/HC');
+        }
+        
+        // Если выбран спец. тип контейнера, обновляем места сдачи
+        if (['40href', '20fr', '40fr'].includes(currentContainerType)) {
+            updateLocationForSpecialContainers();
         }
     }
     // 2. Логика для Бухты Врангеля
@@ -636,7 +645,32 @@ function updateDemurrageContainerTypes(port, terminal) {
     containerTypeSelect.addEventListener('change', function() {
         document.getElementById("demurrage-details").innerHTML = "";
         document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
+        
+        // Если порт Новороссийск и выбран спец. тип контейнера
+        const port = document.getElementById("demurrage-port").value;
+        if (port === 'novorossiysk' && ['40href', '20fr', '40fr'].includes(this.value)) {
+            updateLocationForSpecialContainers();
+        }
     });
+}
+
+// Новая функция для обновления мест сдачи для спец. контейнеров
+function updateLocationForSpecialContainers() {
+    const locationSelect = document.getElementById("container-location");
+    const currentLocation = locationSelect.value;
+    
+    // Очищаем и заполняем только нужными опциями
+    locationSelect.innerHTML = '';
+    
+    addOption(locationSelect, 'novorossiysk', 'Новороссийск');
+    addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
+    
+    // Восстанавливаем предыдущее значение, если оно есть в новом списке
+    if (currentLocation && Array.from(locationSelect.options).some(o => o.value === currentLocation)) {
+        locationSelect.value = currentLocation;
+    } else {
+        locationSelect.value = 'novorossiysk';
+    }
 }
 
 // Вспомогательная функция добавления опции
@@ -903,4 +937,5 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
