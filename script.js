@@ -579,6 +579,7 @@ function updateDemurrageTerminals() {
 }
 
 // Обновление типов контейнеров для демереджа
+// Обновление типов контейнеров для демереджа
 function updateDemurrageContainerTypes(port, terminal) {
     const containerTypeSelect = document.getElementById("demurrage-container-type");
     const freeDaysGroup = document.getElementById("free-days-demurrage-group");
@@ -606,16 +607,15 @@ function updateDemurrageContainerTypes(port, terminal) {
             updateLocationForSpecialContainers();
         }
     }
-    // 2. Логика для Бухты Врангеля
-    else if (port === 'vostochny') {
-        const location = locationSelect.value;
-        if (location === 'vladivostok' || location === 'wrangell') {
-            addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
-            addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
-            addOption(containerTypeSelect, '40href', '40 HREEF');
-        } else {
-            addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
-            addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
+    // 2. Логика для Владивостока и Бухты Врангеля
+    else if (port === 'vladivostok' || port === 'vostochny') {
+        addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
+        addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
+        addOption(containerTypeSelect, '40href', '40 HREEF');
+
+        // Если уже выбран 40 HREEF, обновляем места сдачи
+        if (containerTypeSelect.value === '40href') {
+            updateLocationForHREEF();
         }
     }
     // Остальные порты
@@ -641,13 +641,38 @@ function updateDemurrageContainerTypes(port, terminal) {
         addOption(containerTypeSelect, 'imo20dc', 'IMO 20 DC');
         addOption(containerTypeSelect, 'imo40dc', 'IMO 40 DC / HC');
     }
-    else if (port === 'vladivostok') {
-        addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
-        addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
-        addOption(containerTypeSelect, '40href', '40 HREEF');
+
+    // Функция для обновления мест сдачи для 40 HREEF (Владивосток и Бухта Врангеля)
+    function updateLocationForHREEF() {
+        const port = document.getElementById("demurrage-port").value;
+        if (!['vladivostok', 'vostochny'].includes(port)) return;
+        
+        const containerType = document.getElementById("demurrage-container-type").value;
+        if (containerType !== '40href') return;
+        
+        const locationSelect = document.getElementById("container-location");
+        const currentLocation = locationSelect.value;
+        
+        // Очищаем и заполняем только нужными опциями
+        locationSelect.innerHTML = '';
+        
+        if (port === 'vladivostok') {
+            addOption(locationSelect, 'vladivostok', 'Владивосток');
+            addOption(locationSelect, 'vostochny', 'Порт Восточный');
+        } else if (port === 'vostochny') {
+            addOption(locationSelect, 'vladivostok', 'Владивосток');
+            addOption(locationSelect, 'wrangell', 'Бухта Врангеля');
+        }
+        
+        // Восстанавливаем предыдущее значение, если оно есть в новом списке
+        if (currentLocation && Array.from(locationSelect.options).some(o => o.value === currentLocation)) {
+            locationSelect.value = currentLocation;
+        } else {
+            locationSelect.value = port === 'vladivostok' ? 'vladivostok' : 'vladivostok';
+        }
     }
 
-    // Новая функция для обновления мест сдачи для спец. контейнеров
+    // Функция для обновления мест сдачи для спец. контейнеров Новороссийска
     function updateLocationForSpecialContainers() {
         const port = document.getElementById("demurrage-port").value;
         if (port !== 'novorossiysk') return;
@@ -675,9 +700,15 @@ function updateDemurrageContainerTypes(port, terminal) {
     // Обработчик изменения типа контейнера
     containerTypeSelect.addEventListener('change', function() {
         const port = document.getElementById("demurrage-port").value;
-        if (port === 'novorossiysk' && ['40href', '20fr', '40fr'].includes(this.value)) {
+        const containerType = this.value;
+        
+        if (port === 'novorossiysk' && ['40href', '20fr', '40fr'].includes(containerType)) {
             updateLocationForSpecialContainers();
         }
+        else if (['vladivostok', 'vostochny'].includes(port) && containerType === '40href') {
+            updateLocationForHREEF();
+        }
+        
         document.getElementById("demurrage-details").innerHTML = "";
         document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
     });
@@ -947,3 +978,4 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
