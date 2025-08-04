@@ -572,7 +572,7 @@ function updateDemurrageContainerTypes(port, terminal) {
     const containerTypeSelect = document.getElementById("demurrage-container-type");
     const freeDaysGroup = document.getElementById("free-days-demurrage-group");
     const locationGroup = document.getElementById("location-group");
-    const location = document.getElementById("container-location").value;
+    const locationSelect = document.getElementById("container-location");
     
     containerTypeSelect.innerHTML = '';
     freeDaysGroup.style.display = 'none';
@@ -583,15 +583,16 @@ function updateDemurrageContainerTypes(port, terminal) {
 
     // 1. Логика для Новороссийска
     if (port === 'novorossiysk') {
-        if (location === 'novorossiysk' || location === 'rostov') {
-            addOption(containerTypeSelect, '20dc', '20 DC');
-            addOption(containerTypeSelect, '40dc', '40 DC/HC');
-            addOption(containerTypeSelect, '40href', '40 HREEF');
-            addOption(containerTypeSelect, '20fr', 'OOG/IG: 20FR/OT');
-            addOption(containerTypeSelect, '40fr', 'OOG/IG: 40FR/OT');
-        } else {
-            addOption(containerTypeSelect, '20dc', '20 DC');
-            addOption(containerTypeSelect, '40dc', '40 DC/HC');
+        addOption(containerTypeSelect, '20dc', '20 DC');
+        addOption(containerTypeSelect, '40dc', '40 DC/HC');
+        addOption(containerTypeSelect, '40href', '40 HREEF');
+        addOption(containerTypeSelect, '20fr', 'OOG/IG: 20FR/OT');
+        addOption(containerTypeSelect, '40fr', 'OOG/IG: 40FR/OT');
+        
+        // Если уже выбран спец. тип контейнера, обновляем места сдачи
+        const currentType = containerTypeSelect.value;
+        if (['40href', '20fr', '40fr'].includes(currentType)) {
+            updateLocationForSpecialContainers();
         }
     }
     // 2. Логика для Бухты Врангеля
@@ -632,12 +633,39 @@ function updateDemurrageContainerTypes(port, terminal) {
         addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
     }
 
-    // Обработчик изменения типа контейнера
-    containerTypeSelect.addEventListener('change', function() {
-        document.getElementById("demurrage-details").innerHTML = "";
-        document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
-    });
+    // Новая функция для обновления мест сдачи для спец. контейнеров
+    function updateLocationForSpecialContainers() {
+    const port = document.getElementById("demurrage-port").value;
+    if (port !== 'novorossiysk') return;
+    
+    const containerType = document.getElementById("demurrage-container-type").value;
+    if (!['40href', '20fr', '40fr'].includes(containerType)) return;
+    
+    const locationSelect = document.getElementById("container-location");
+    const currentLocation = locationSelect.value;
+    
+    // Очищаем и заполняем только нужными опциями
+    locationSelect.innerHTML = '';
+    
+    addOption(locationSelect, 'novorossiysk', 'Новороссийск');
+    addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
+    
+    // Восстанавливаем предыдущее значение, если оно есть в новом списке
+    if (currentLocation && Array.from(locationSelect.options).some(o => o.value === currentLocation)) {
+        locationSelect.value = currentLocation;
+    } else {
+        locationSelect.value = 'novorossiysk';
+    }
 }
+    // Обработчик изменения типа контейнера
+    document.getElementById('demurrage-container-type').addEventListener('change', function() {
+    const port = document.getElementById("demurrage-port").value;
+    if (port === 'novorossiysk' && ['40href', '20fr', '40fr'].includes(this.value)) {
+        updateLocationForSpecialContainers();
+    }
+    document.getElementById("demurrage-details").innerHTML = "";
+    document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
+});
 
 // Вспомогательная функция добавления опции
 function addOption(selectElement, value, text) {
@@ -903,4 +931,5 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
