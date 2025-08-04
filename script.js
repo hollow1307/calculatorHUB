@@ -673,14 +673,6 @@ function updateLocationForSpecialContainers() {
     }
 }
 
-// Вспомогательная функция добавления опции
-function addOption(selectElement, value, text) {
-    const option = document.createElement('option');
-    option.value = value;
-    option.textContent = text;
-    selectElement.appendChild(option);
-}
-
 // Парсинг диапазона дней
 function parseDayRange(rangeStr) {
     const parts = rangeStr.split('-');
@@ -937,5 +929,6 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
