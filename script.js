@@ -340,83 +340,83 @@ const demurrageRates = {
             ]
         }
     },
-    "vladivostok": {
-        "vmpp": {
-            "20dc": [
-                { days: "1-10", rate: 0 },
-                { days: "11-999", rate: 10 }
-            ],
-            "40dc": [
-                { days: "1-10", rate: 0 },
-                { days: "11-999", rate: 20 }
-            ],
-            "40href": [
-                { days: "1-7", rate: 0 },
-                { days: "8-14", rate: 60 },
-                { days: 15-25", rate: 120 },
-                { days: "26-999", rate: 220 }
-            ],
-            "far": {
-                "20dc": [
-                    { days: "1-40", rate: 0 },
-                    { days: "41-999", rate: 10 }
-                ],
-                "40dc": [
-                    { days: "1-40", rate: 0 },
-                    { days: "41-999", rate: 20 }
-                ]
-            },
-            "moscow": {
-                "20dc": [
-                    { days: "1-45", rate: 0 },
-                    { days: "46-999", rate: 10 }
-                ],
-                "40dc": [
-                    { days: "1-45", rate: 0 },
-                    { days: "46-999", rate: 20 }
-                ]
-            }
-        }
+    
+"vladivostok": {
+    "vmpp": {
+        "20dc": [
+            { days: "1-10", rate: 0 },
+            { days: "11-999", rate: 10 }
+        ],
+        "40dc": [
+            { days: "1-10", rate: 0 },
+            { days: "11-999", rate: 20 }
+        ],
+        "40href": [
+            { days: "1-7", rate: 0 },
+            { days: "8-14", rate: 60 },
+            { days: "15-25", rate: 120 },  
+            { days: "26-999", rate: 220 }
+        ]
+    },  
+    "far": {
+        "20dc": [
+            { days: "1-40", rate: 0 },
+            { days: "41-999", rate: 10 }
+        ],
+        "40dc": [
+            { days: "1-40", rate: 0 },
+            { days: "41-999", rate: 20 }
+        ]
     },
-    "vostochny": {
-        "vostochny": {
-            "20dc": [
-                { days: "1-10", rate: 0 },
-                { days: "11-999", rate: 10 }
-            ],
-            "40dc": [
-                { days: "1-10", rate: 0 },
-                { days: "11-999", rate: 20 }
-            ],
-            "40href": [
-                { days: "1-7", rate: 0 },
-                { days: "8-14", rate: 60 },
-                { days: "15-25", rate: 120 },
-                { days: "26-999", rate: 220 }
-            ],
-            "far": {
-                "20dc": [
-                    { days: "1-40", rate: 0 },
-                    { days: "41-999", rate: 10 }
-                ],
-                "40dc": [
-                    { days: "1-40", rate: 0 },
-                    { days: "41-999", rate: 20 }
-                ]
-            },
-            "moscow": {
-                "20dc": [
-                    { days: "1-45", rate: 0 },
-                    { days: "46-999", rate: 10 }
-                ],
-                "40dc": [
-                    { days: "1-45", rate: 0 },
-                    { days: "46-999", rate: 20 }
-                ]
-            }
-        }
+    "moscow": {
+        "20dc": [
+            { days: "1-45", rate: 0 },
+            { days: "46-999", rate: 10 }
+        ],
+        "40dc": [
+            { days: "1-45", rate: 0 },
+            { days: "46-999", rate: 20 }
+        ]
     }
-};
+},
+"vostochny": {
+    "vostochny": {
+        "20dc": [
+            { days: "1-10", rate: 0 },
+            { days: "11-999", rate: 10 }
+        ],
+        "40dc": [
+            { days: "1-10", rate: 0 },
+            { days: "11-999", rate: 20 }
+        ],
+        "40href": [
+            { days: "1-7", rate: 0 },
+            { days: "8-14", rate: 60 },
+            { days: "15-25", rate: 120 },
+            { days: "26-999", rate: 220 }
+        ]
+    }, 
+    "far": {
+        "20dc": [
+            { days: "1-40", rate: 0 },
+            { days: "41-999", rate: 10 }
+        ],
+        "40dc": [
+            { days: "1-40", rate: 0 },
+            { days: "41-999", rate: 20 }
+        ]
+    },
+    "moscow": {
+        "20dc": [
+            { days: "1-45", rate: 0 },
+            { days: "46-999", rate: 10 }
+        ],
+        "40dc": [
+            { days: "1-45", rate: 0 },
+            { days: "46-999", rate: 20 }
+        ]
+    }
+}
 
 // Валидация даты
 function validateDateInput(dateInput) {
@@ -943,5 +943,6 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
