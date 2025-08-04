@@ -579,7 +579,6 @@ function updateDemurrageTerminals() {
 }
 
 // Обновление типов контейнеров для демереджа
-// Обновление типов контейнеров для демереджа
 function updateDemurrageContainerTypes(port, terminal) {
     const containerTypeSelect = document.getElementById("demurrage-container-type");
     const freeDaysGroup = document.getElementById("free-days-demurrage-group");
@@ -600,23 +599,12 @@ function updateDemurrageContainerTypes(port, terminal) {
         addOption(containerTypeSelect, '40href', '40 HREEF');
         addOption(containerTypeSelect, '20fr', 'OOG/IG: 20FR/OT');
         addOption(containerTypeSelect, '40fr', 'OOG/IG: 40FR/OT');
-        
-        // Если уже выбран спец. тип контейнера, обновляем места сдачи
-        const currentType = containerTypeSelect.value;
-        if (['40href', '20fr', '40fr'].includes(currentType)) {
-            updateLocationForSpecialContainers();
-        }
     }
     // 2. Логика для Владивостока и Бухты Врангеля
     else if (port === 'vladivostok' || port === 'vostochny') {
         addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
         addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
         addOption(containerTypeSelect, '40href', '40 HREEF');
-
-        // Если уже выбран 40 HREEF, обновляем места сдачи
-        if (containerTypeSelect.value === '40href') {
-            updateLocationForHREEF();
-        }
     }
     // Остальные порты
     else if (port === 'spb') {
@@ -642,78 +630,82 @@ function updateDemurrageContainerTypes(port, terminal) {
         addOption(containerTypeSelect, 'imo40dc', 'IMO 40 DC / HC');
     }
 
-    // Функция для обновления мест сдачи для 40 HREEF (Владивосток и Бухта Врангеля)
-    function updateLocationForHREEF() {
-        const port = document.getElementById("demurrage-port").value;
-        if (!['vladivostok', 'vostochny'].includes(port)) return;
-        
-        const containerType = document.getElementById("demurrage-container-type").value;
-        if (containerType !== '40href') return;
-        
-        const locationSelect = document.getElementById("container-location");
-        const currentLocation = locationSelect.value;
-        
-        // Очищаем и заполняем только нужными опциями
-        locationSelect.innerHTML = '';
-        
-        if (port === 'vladivostok') {
-            addOption(locationSelect, 'vladivostok', 'Владивосток');
-            addOption(locationSelect, 'vostochny', 'Порт Восточный');
-        } else if (port === 'vostochny') {
-            addOption(locationSelect, 'vladivostok', 'Владивосток');
-            addOption(locationSelect, 'wrangell', 'Бухта Врангеля');
-        }
-        
-        // Восстанавливаем предыдущее значение, если оно есть в новом списке
-        if (currentLocation && Array.from(locationSelect.options).some(o => o.value === currentLocation)) {
-            locationSelect.value = currentLocation;
-        } else {
-            locationSelect.value = port === 'vladivostok' ? 'vladivostok' : 'vladivostok';
-        }
-    }
-
-    // Функция для обновления мест сдачи для спец. контейнеров Новороссийска
-    function updateLocationForSpecialContainers() {
-        const port = document.getElementById("demurrage-port").value;
-        if (port !== 'novorossiysk') return;
-        
-        const containerType = document.getElementById("demurrage-container-type").value;
-        if (!['40href', '20fr', '40fr'].includes(containerType)) return;
-        
-        const locationSelect = document.getElementById("container-location");
-        const currentLocation = locationSelect.value;
-        
-        // Очищаем и заполняем только нужными опциями
-        locationSelect.innerHTML = '';
-        
-        addOption(locationSelect, 'novorossiysk', 'Новороссийск');
-        addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
-        
-        // Восстанавливаем предыдущее значение, если оно есть в новом списке
-        if (currentLocation && Array.from(locationSelect.options).some(o => o.value === currentLocation)) {
-            locationSelect.value = currentLocation;
-        } else {
-            locationSelect.value = 'novorossiysk';
-        }
-    }
-    
     // Обработчик изменения типа контейнера
     containerTypeSelect.addEventListener('change', function() {
         const port = document.getElementById("demurrage-port").value;
         const containerType = this.value;
+        const locationSelect = document.getElementById("container-location");
         
-        if (port === 'novorossiysk' && ['40href', '20fr', '40fr'].includes(containerType)) {
-            updateLocationForSpecialContainers();
-        }
-        else if (['vladivostok', 'vostochny'].includes(port) && containerType === '40href') {
-            updateLocationForHREEF();
+        // Если выбран 40 HREEF в Новороссийске, Владивостоке или Бухте Врангеля
+        if (containerType === '40href' && ['novorossiysk', 'vladivostok', 'vostochny'].includes(port)) {
+            // Сохраняем текущее значение
+            const currentLocation = locationSelect.value;
+            
+            // Очищаем и заполняем только нужными опциями
+            locationSelect.innerHTML = '';
+            
+            if (port === 'novorossiysk') {
+                addOption(locationSelect, 'novorossiysk', 'Новороссийск');
+                addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
+            } 
+            else if (port === 'vladivostok') {
+                addOption(locationSelect, 'vladivostok', 'Владивосток');
+                addOption(locationSelect, 'vostochny', 'Порт Восточный');
+            } 
+            else if (port === 'vostochny') {
+                addOption(locationSelect, 'vladivostok', 'Владивосток');
+                addOption(locationSelect, 'wrangell', 'Бухта Врангеля');
+            }
+            
+            // Восстанавливаем предыдущее значение, если оно есть в новом списке
+            if (currentLocation && Array.from(locationSelect.options).some(o => o.value === currentLocation)) {
+                locationSelect.value = currentLocation;
+            }
+        } 
+        // Если выбран другой тип контейнера - восстанавливаем полный список мест сдачи
+        else {
+            // Сохраняем текущее значение
+            const currentLocation = locationSelect.value;
+            
+            // Очищаем и заполняем полным списком
+            locationSelect.innerHTML = '';
+            
+            // Общие места сдачи
+            addOption(locationSelect, 'moscow', 'Москва');
+            addOption(locationSelect, 'spb', 'Санкт-Петербург');
+            addOption(locationSelect, 'ekaterinburg', 'Екатеринбург');
+            addOption(locationSelect, 'novosibirsk', 'Новосибирск');
+            addOption(locationSelect, 'krasnoyarsk', 'Красноярск');
+            addOption(locationSelect, 'irkutsk', 'Иркутск');
+            addOption(locationSelect, 'tolyatti', 'Тольятти');
+            addOption(locationSelect, 'samara', 'Самара');
+            addOption(locationSelect, 'novorossiysk', 'Новороссийск');
+            addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
+            
+            // Дополнительные места для Калининграда
+            if (port !== 'spb') {
+                addOption(locationSelect, 'kaliningrad', 'Калининград');
+            }
+            
+            // Дополнительные места для Владивостока и Бухты Врангеля
+            if (port === 'vladivostok') {
+                addOption(locationSelect, 'vladivostok', 'Владивосток');
+                addOption(locationSelect, 'vostochny', 'Порт Восточный');
+            } else if (port === 'vostochny') {
+                addOption(locationSelect, 'vladivostok', 'Владивосток');
+                addOption(locationSelect, 'wrangell', 'Бухта Врангеля');
+            }
+            
+            // Восстанавливаем предыдущее значение
+            if (currentLocation && Array.from(locationSelect.options).some(o => o.value === currentLocation)) {
+                locationSelect.value = currentLocation;
+            }
         }
         
         document.getElementById("demurrage-details").innerHTML = "";
         document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
     });
 }
-
 // Вспомогательная функция добавления опции
 function addOption(selectElement, value, text) {
     const option = document.createElement('option');
@@ -978,4 +970,5 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
