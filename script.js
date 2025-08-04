@@ -205,6 +205,16 @@ const demurrageRates = {
                 { days: "3-9", rate: 75 },
                 { days: "10-16", rate: 100 },
                 { days: "17-999", rate: 300 }
+            ],
+            "20fr": [
+                { days: "1-2", rate: 0 },
+                { days: "3-9", rate: 45 },
+                { days: "10-999", rate: 90 }
+            ],
+            "40fr": [
+                { days: "1-2", rate: 0 },
+                { days: "3-9", rate: 90 },
+                { days: "10-999", rate: 180 }
             ]
         },
         "rostov": {
@@ -223,6 +233,16 @@ const demurrageRates = {
                 { days: "3-9", rate: 75 },
                 { days: "10-16", rate: 100 },
                 { days: "17-999", rate: 300 }
+            ],
+            "20fr": [
+                { days: "1-2", rate: 0 },
+                { days: "3-9", rate: 45 },
+                { days: "10-999", rate: 90 }
+            ],
+            "40fr": [
+                { days: "1-2", rate: 0 },
+                { days: "3-9", rate: 90 },
+                { days: "10-999", rate: 180 }
             ]
         }
     },
@@ -565,11 +585,13 @@ function updateDemurrageContainerTypes(port, terminal) {
     if (port === 'novorossiysk') {
         if (location === 'novorossiysk' || location === 'rostov') {
             addOption(containerTypeSelect, '20dc', '20 DC');
-            addOption(containerTypeSelect, '40dc', '40 DC');
-            addOption(containerTypeSelect, '40href', '40 HREF');
+            addOption(containerTypeSelect, '40dc', '40 DC/HC');
+            addOption(containerTypeSelect, '40href', '40 HREEF');
+            addOption(containerTypeSelect, '20fr', 'OOG/IG: 20FR/OT');
+            addOption(containerTypeSelect, '40fr', 'OOG/IG: 40FR/OT');
         } else {
             addOption(containerTypeSelect, '20dc', '20 DC');
-            addOption(containerTypeSelect, '40dc', '40 DC');
+            addOption(containerTypeSelect, '40dc', '40 DC/HC');
         }
     }
     // 2. Логика для Бухты Врангеля
@@ -881,3 +903,4 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
