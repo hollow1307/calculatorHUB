@@ -483,7 +483,7 @@ function updateStorageContainerTypes(port) {
     } 
     else if (port === 'spb') {
         addOption(newSelect, '20dc', '20 DC');
-        addOption(newSelect, '40dc', '40 DC / HC');
+        addOption(newSelect, '40dc', '40 DC/HC');
         addOption(newSelect, '40href', '40 HREEF');
         addOption(newSelect, 'imo40href', 'IMO 40 HREEF');
         addOption(newSelect, 'imo20dc', 'IMO 20 DC');
@@ -617,7 +617,7 @@ function updateDemurrageContainerTypes(port, terminal) {
             addOption(containerTypeSelect, '40fr', '40 FR/OT');
         } else {
             addOption(containerTypeSelect, '20dc', '20 DC');
-            addOption(containerTypeSelect, '40dc', '40 DC');
+            addOption(containerTypeSelect, '40dc', '40 DC/HC');
         }
     }
     else if (port === 'kaliningrad') {
@@ -970,5 +970,6 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
