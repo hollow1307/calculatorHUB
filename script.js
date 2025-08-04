@@ -417,6 +417,7 @@ const demurrageRates = {
         ]
     }
 }
+};
 
 // Валидация даты
 function validateDateInput(dateInput) {
@@ -607,6 +608,7 @@ function updateDemurrageContainerTypes(port, terminal) {
     }
     // 2. Логика для Бухты Врангеля
     else if (port === 'vostochny') {
+        const location = locationSelect.value;
         if (location === 'vladivostok' || location === 'wrangell') {
             addOption(containerTypeSelect, '20dc', '20 DC, GEN/IMO');
             addOption(containerTypeSelect, '40dc', '40 DC/HC, GEN/IMO');
@@ -618,6 +620,7 @@ function updateDemurrageContainerTypes(port, terminal) {
     }
     // Остальные порты
     else if (port === 'spb') {
+        const location = locationSelect.value;
         if (location === 'spb') {
             addOption(containerTypeSelect, '20dc', '20 DC');
             addOption(containerTypeSelect, '40dc', '40 DC/HC');
@@ -646,37 +649,38 @@ function updateDemurrageContainerTypes(port, terminal) {
 
     // Новая функция для обновления мест сдачи для спец. контейнеров
     function updateLocationForSpecialContainers() {
-    const port = document.getElementById("demurrage-port").value;
-    if (port !== 'novorossiysk') return;
-    
-    const containerType = document.getElementById("demurrage-container-type").value;
-    if (!['40href', '20fr', '40fr'].includes(containerType)) return;
-    
-    const locationSelect = document.getElementById("container-location");
-    const currentLocation = locationSelect.value;
-    
-    // Очищаем и заполняем только нужными опциями
-    locationSelect.innerHTML = '';
-    
-    addOption(locationSelect, 'novorossiysk', 'Новороссийск');
-    addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
-    
-    // Восстанавливаем предыдущее значение, если оно есть в новом списке
-    if (currentLocation && Array.from(locationSelect.options).some(o => o.value === currentLocation)) {
-        locationSelect.value = currentLocation;
-    } else {
-        locationSelect.value = 'novorossiysk';
+        const port = document.getElementById("demurrage-port").value;
+        if (port !== 'novorossiysk') return;
+        
+        const containerType = document.getElementById("demurrage-container-type").value;
+        if (!['40href', '20fr', '40fr'].includes(containerType)) return;
+        
+        const locationSelect = document.getElementById("container-location");
+        const currentLocation = locationSelect.value;
+        
+        // Очищаем и заполняем только нужными опциями
+        locationSelect.innerHTML = '';
+        
+        addOption(locationSelect, 'novorossiysk', 'Новороссийск');
+        addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
+        
+        // Восстанавливаем предыдущее значение, если оно есть в новом списке
+        if (currentLocation && Array.from(locationSelect.options).some(o => o.value === currentLocation)) {
+            locationSelect.value = currentLocation;
+        } else {
+            locationSelect.value = 'novorossiysk';
+        }
     }
-}
+    
     // Обработчик изменения типа контейнера
-    document.getElementById('demurrage-container-type').addEventListener('change', function() {
-    const port = document.getElementById("demurrage-port").value;
-    if (port === 'novorossiysk' && ['40href', '20fr', '40fr'].includes(this.value)) {
-        updateLocationForSpecialContainers();
-    }
-    document.getElementById("demurrage-details").innerHTML = "";
-    document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
- });
+    containerTypeSelect.addEventListener('change', function() {
+        const port = document.getElementById("demurrage-port").value;
+        if (port === 'novorossiysk' && ['40href', '20fr', '40fr'].includes(this.value)) {
+            updateLocationForSpecialContainers();
+        }
+        document.getElementById("demurrage-details").innerHTML = "";
+        document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
+    });
 }
 
 // Вспомогательная функция добавления опции
@@ -796,7 +800,7 @@ function calculateDemurrage() {
         } else if (['ekaterinburg', 'novosibirsk', 'krasnoyarsk', 'irkutsk'].includes(location)) {
             rateGroup = 'far';
         }
-        rates = demurrageRates[port][rateGroup][containerType] || 
+        rates = demurrageRates[port][rateGroup]?.[containerType] || 
                demurrageRates[port]['default'][containerType];
     } 
     else if (port === 'vladivostok') {
@@ -812,7 +816,7 @@ function calculateDemurrage() {
             } else if (['ekaterinburg', 'novosibirsk', 'krasnoyarsk', 'irkutsk'].includes(location)) {
                 rateGroup = 'far';
             }
-            rates = demurrageRates[port]['vmpp'][rateGroup]?.[containerType];
+            rates = demurrageRates[port][rateGroup]?.[containerType];
         }
     }
     else if (port === 'vostochny') {
@@ -943,6 +947,3 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
-
-
-
