@@ -665,7 +665,8 @@ function updateDemurrageContainerTypes(port, terminal) {
     }
     document.getElementById("demurrage-details").innerHTML = "";
     document.getElementById("demurrage-total").textContent = "Итого: 0 USD";
-});
+ });
+}
 
 // Вспомогательная функция добавления опции
 function addOption(selectElement, value, text) {
@@ -931,3 +932,4 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
