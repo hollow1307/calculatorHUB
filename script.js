@@ -507,46 +507,36 @@ function updateDemurrageTerminals() {
     // Очистка списка терминалов
     terminalSelect.innerHTML = '';
 
-    // Получение текущего выбранного типа контейнера демереджа
-    const containerTypeSelect = document.getElementById("demurrage-container-type");
-    const selectedContainer = containerTypeSelect ? containerTypeSelect.value : null;
-
     // Сохраняем текущее значение места сдачи
     const currentLocation = locationSelect.value;
 
-    // Очистка списка мест сдачи
+    // Очищаем и заполняем список мест сдачи
     locationSelect.innerHTML = '';
 
-    // Типы контейнеров с ограниченным списком мест сдачи
-    const specialContainers = ['40href', '20fr', '40fr'];
+    // Общие места сдачи для всех портов
+    addOption(locationSelect, 'moscow', 'Москва');
+    addOption(locationSelect, 'spb', 'Санкт-Петербург');
+    addOption(locationSelect, 'ekaterinburg', 'Екатеринбург');
+    addOption(locationSelect, 'novosibirsk', 'Новосибирск');
+    addOption(locationSelect, 'krasnoyarsk', 'Красноярск');
+    addOption(locationSelect, 'irkutsk', 'Иркутск');
+    addOption(locationSelect, 'tolyatti', 'Тольятти');
+    addOption(locationSelect, 'samara', 'Самара');
+    addOption(locationSelect, 'novorossiysk', 'Новороссийск');
+    addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
+    
+    // Дополнительные места сдачи для Калининграда
+    if (port !== 'spb') {
+        addOption(locationSelect, 'kaliningrad', 'Калининград');
+    }
 
-    if (port === 'novorossiysk' && specialContainers.includes(selectedContainer)) {
-        addOption(locationSelect, 'novorossiysk', 'Новороссийск');
-        addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
-    } else {
-        // Общие места сдачи для всех портов
-        addOption(locationSelect, 'moscow', 'Москва');
-        addOption(locationSelect, 'spb', 'Санкт-Петербург');
-        addOption(locationSelect, 'ekaterinburg', 'Екатеринбург');
-        addOption(locationSelect, 'novosibirsk', 'Новосибирск');
-        addOption(locationSelect, 'krasnoyarsk', 'Красноярск');
-        addOption(locationSelect, 'irkutsk', 'Иркутск');
-        addOption(locationSelect, 'tolyatti', 'Тольятти');
-        addOption(locationSelect, 'samara', 'Самара');
-        addOption(locationSelect, 'novorossiysk', 'Новороссийск');
-        addOption(locationSelect, 'rostov', 'Ростов-на-Дону');
-
-        if (port !== 'spb') {
-            addOption(locationSelect, 'kaliningrad', 'Калининград');
-        }
-
-        if (port === 'vladivostok') {
-            addOption(locationSelect, 'vladivostok', 'Владивосток');
-            addOption(locationSelect, 'vostochny', 'Порт Восточный');
-        } else if (port === 'vostochny') {
-            addOption(locationSelect, 'vladivostok', 'Владивосток');
-            addOption(locationSelect, 'wrangell', 'Бухта Врангеля');
-        }
+    // Дополнительные места сдачи для Владивостока и бухты Врангеля
+    if (port === 'vladivostok') {
+        addOption(locationSelect, 'vladivostok', 'Владивосток');
+        addOption(locationSelect, 'vostochny', 'Порт Восточный');
+    } else if (port === 'vostochny') {
+        addOption(locationSelect, 'vladivostok', 'Владивосток');
+        addOption(locationSelect, 'wrangell', 'Бухта Врангеля');
     }
 
     // Восстанавливаем предыдущее значение места сдачи, если оно есть в списке
@@ -570,13 +560,12 @@ function updateDemurrageTerminals() {
     } else {
         terminalGroup.style.display = 'none';
         if (terminals[port]?.[0]) {
-            terminalSelect.innerHTML = ``;
+            terminalSelect.innerHTML = `<option value="${terminals[port][0].toLowerCase()}">${terminals[port][0]}</option>`;
         }
     }
 
     updateDemurrageContainerTypes(port, terminalSelect.value);
 }
-
 
 // Обновление типов контейнеров для демереджа
 function updateDemurrageContainerTypes(port, terminal) {
@@ -914,7 +903,4 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
-
-
-
 
