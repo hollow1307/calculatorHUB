@@ -2,7 +2,7 @@
 const terminals = {
     "novorossiysk": ["НУТЭП"],
     "kaliningrad": ["Балтийск"],
-    "spb": ["КТСП", "ПКТ/ПЛП"], 
+    "spb": ["КТСП", "ПКТ/ПЛП", "ТМРП"], 
     "vladivostok": ["ВМПП"],
     "vostochny": ["Порт Восточный"],
     "tmrp": ["ТМРП"],
@@ -1035,6 +1035,7 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
 
