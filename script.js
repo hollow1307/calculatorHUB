@@ -2,9 +2,10 @@
 const terminals = {
     "novorossiysk": ["НУТЭП"],
     "kaliningrad": ["Балтийск"],
-    "spb": ["КТСП", "ПКТ/ПЛП", "ТМРП"], 
+    "spb": ["КТСП", "ПКТ/ПЛП"], 
     "vladivostok": ["ВМПП"],
-    "vostochny": ["Порт Восточный"]
+    "vostochny": ["Порт Восточный"],
+    "tmrp": ["ТМРП"],
 };
 
 // Тарифы хранения для разных портов
@@ -550,7 +551,7 @@ function updateStorageContainerTypes(port) {
         addOption(newSelect, 'imo40href', 'IMO 40 HREEF');
         addOption(newSelect, 'imo20dc', 'IMO 20 DC');
         addOption(newSelect, 'imo40dc', 'IMO 40 DC/HC');
-         addOption(newSelect, 'imo6.1\20', 'IMO 6.1 20 DC');
+        addOption(newSelect, 'imo6.1\20', 'IMO 6.1 20 DC');
         addOption(newSelect, 'imo6.1\40', 'IMO 6.1 40 DC/HC');
         addOption(newSelect, '20fr', '20 FR/OT');
         addOption(newSelect, '40fr', '40 FR/OT');
@@ -1034,6 +1035,7 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
 
