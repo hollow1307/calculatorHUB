@@ -2,7 +2,7 @@
 const terminals = {
     "novorossiysk": ["НУТЭП"],
     "kaliningrad": ["Балтийск"],
-    "spb": ["КТСП", "ПКТ/ПЛП"], 
+    "spb": ["КТСП", "ПКТ/ПЛП", "ТМРП"], 
     "vladivostok": ["ВМПП"],
     "vostochny": ["Порт Восточный"]
 };
@@ -123,6 +123,58 @@ const storageRates = {
             { days: "11-14", rate: 150, currency: "USD" },
             { days: "15-17", rate: 160, currency: "USD" },
             { days: "18-999", rate: 180, currency: "USD" }
+        ],
+        "20fr": [
+            { days: "1", rate: 0, currency: "USD" },
+            { days: "2-999", rate: 120, currency: "USD" }
+        ],
+        "40fr": [
+            { days: "1", rate: 0, currency: "USD" },
+            { days: "2-999", rate: 220, currency: "USD" }
+        ]
+    },
+     "tmrp": {
+        "20dc": [
+            { days: "1-10", rate: 0, currency: "USD" },
+            { days: "11-14", rate: 45, currency: "USD" },
+            { days: "15-17", rate: 50, currency: "USD" },
+            { days: "18-999", rate: 70, currency: "USD" }
+        ],
+        "40dc": [
+            { days: "1-10", rate: 0, currency: "USD" },
+            { days: "11-14", rate: 90, currency: "USD" },
+            { days: "15-17", rate: 100, currency: "USD" },
+            { days: "18-999", rate: 150, currency: "USD" }
+        ],
+        "40href": [
+            { days: "1-999", rate: 60, currency: "USD" }
+        ],
+         "imo40href": [
+            { days: "1-999", rate: 90, currency: "USD" }
+        ],
+        "imo20dc": [
+            { days: "1-3", rate: 0, currency: "USD" },
+            { days: "4-5", rate: 45, currency: "USD" },
+            { days: "6-10", rate: 50, currency: "USD" },
+            { days: "11-14", rate: 70, currency: "USD" },
+            { days: "15-17", rate: 80, currency: "USD" },
+            { days: "18-999", rate: 90, currency: "USD" }
+        ],
+        "imo40dc": [
+            { days: "1-3", rate: 0, currency: "USD" },
+            { days: "4-5", rate: 90, currency: "USD" },
+            { days: "6-10", rate: 100, currency: "USD" },
+            { days: "11-14", rate: 150, currency: "USD" },
+            { days: "15-17", rate: 160, currency: "USD" },
+            { days: "18-999", rate: 180, currency: "USD" }
+        ],
+         "imo6.1\20": [
+            { days: "1-3", rate: 0, currency: "USD" },
+            { days: "4-999", rate: 100, currency: "USD" }
+        ],
+        "imo6.1\40": [
+            { days: "1-3", rate: 0, currency: "USD" },
+            { days: "4-999", rate: 200, currency: "USD" }
         ],
         "20fr": [
             { days: "1", rate: 0, currency: "USD" },
@@ -487,7 +539,19 @@ function updateStorageContainerTypes(port) {
         addOption(newSelect, '40href', '40 HREEF');
         addOption(newSelect, 'imo40href', 'IMO 40 HREEF');
         addOption(newSelect, 'imo20dc', 'IMO 20 DC');
-        addOption(newSelect, 'imo40dc', 'IMO 40 DC / HC');
+        addOption(newSelect, 'imo40dc', 'IMO 40 DC/HC');
+        addOption(newSelect, '20fr', '20 FR/OT');
+        addOption(newSelect, '40fr', '40 FR/OT');
+    }
+    else if (port === 'tmrp') {
+        addOption(newSelect, '20dc', '20 DC');
+        addOption(newSelect, '40dc', '40 DC/HC');
+        addOption(newSelect, '40href', '40 HREEF');
+        addOption(newSelect, 'imo40href', 'IMO 40 HREEF');
+        addOption(newSelect, 'imo20dc', 'IMO 20 DC');
+        addOption(newSelect, 'imo40dc', 'IMO 40 DC/HC');
+         addOption(newSelect, 'imo6.1\20', 'IMO 6.1 20 DC');
+        addOption(newSelect, 'imo6.1\40', 'IMO 6.1 40 DC/HC');
         addOption(newSelect, '20fr', '20 FR/OT');
         addOption(newSelect, '40fr', '40 FR/OT');
     }
@@ -970,6 +1034,7 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
 
