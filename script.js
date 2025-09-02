@@ -1,6 +1,7 @@
 // Объекты с терминалами
 const terminals = {
-    "novorossiysk": ["НУТЭП"],
+    "nutep": ["НУТЭП"],
+    "nle": ["НЛЭ"],
     "kaliningrad": ["Балтийск"],
     "spb": ["КТСП", "ПКТ/ПЛП", "ТМРП"], 
     "vladivostok": ["ВМПП"],
@@ -11,7 +12,7 @@ const terminals = {
 
 // Тарифы хранения для разных портов
 const storageRates = {
-    "novorossiysk": {
+    "nutep": {
         "20dc": [
             { days: "1-5", rate: 0 },
             { days: "6-8", rate: 1800 },
@@ -50,6 +51,53 @@ const storageRates = {
         ],
         "oog40": [
             { days: "1-999", rate: 17600 }
+        ]
+    },
+    "nle": {
+        "20dc": [
+            { days: "1-5", rate: 0 },
+            { days: "6-8", rate: 1500 },
+            { days: "9-11", rate: 2000 },
+            { days: "12-14", rate: 3000 },
+            { days: "15-999", rate: 4500 }
+        ],
+        "40dc": [
+            { days: "1-5", rate: 0 },
+            { days: "6-8", rate: 3000 },
+            { days: "9-11", rate: 4000 },
+            { days: "12-14", rate: 6000 },
+            { days: "15-999", rate: 9000 }
+        ],
+        "40href": [
+            { days: "1-5", rate: 3500 },
+            { days: "6-10", rate: 7000 },
+            { days: "11-999", rate: 9000 }
+        ],
+        "imo20dc": [
+            { days: "1-5", rate: 0 },
+            { days: "6-8", rate: 2500 },
+            { days: "9-11", rate: 3000 },
+            { days: "12-14", rate: 4500 },
+            { days: "15-999", rate: 6500 }
+        ],
+        "imo40dc": [
+            { days: "1-5", rate: 0 },
+            { days: "6-8", rate: 5000 },
+            { days: "9-11", rate: 6000 },
+            { days: "12-14", rate: 9000 },
+            { days: "15-999", rate: 13000 }
+        ],
+         "oog20": [
+            { days: "1-3", rate: 4500 },
+            { days: "4-10", rate: 6000 },
+            { days: "11-15", rate: 6500 },
+            { days: "16-999", rate: 14000 }
+        ],
+        "oog40": [
+            { days: "1-3", rate: 9000 },
+            { days: "4-10", rate: 12000 },
+            { days: "11-15", rate: 12000 },
+            { days: "16-999", rate: 28000 }
         ]
     },
     "kaliningrad": {
@@ -560,7 +608,7 @@ function updateStorageContainerTypes(port) {
     // Очищаем и заполняем заново
     newSelect.innerHTML = '';
     
-    if (port === 'novorossiysk') {
+    if (port === 'nutep') {
         addOption(newSelect, '20dc', '20 DC/TANK');
         addOption(newSelect, '40dc', '40 DC/HC/TANK');
         addOption(newSelect, '40href', '40 HREEF');
@@ -607,6 +655,14 @@ function updateStorageContainerTypes(port) {
         addOption(newSelect, '20fr', '20 FR/OT');
         addOption(newSelect, '40fr', '40 FR/OT');
     }
+    else if (port === 'nle') {
+        addOption(newSelect, '20dc', '20 DC/TANK');
+        addOption(newSelect, '40dc', '40 DC/HC/TANK');
+        addOption(newSelect, '40href', '40 HREEF');
+        addOption(newSelect, 'imo20dc', 'IMO 20 DC/TANK');
+        addOption(newSelect, 'imo40dc', 'IMO 40 DC/TANK');
+        addOption(newSelect, 'oog20', 'OOG/IG:20 FR/OT');
+        addOption(newSelect, 'oog40', 'OOG/IG:40 FR/OT');
     
     
     // Добавляем ОДИН обработчик
@@ -1087,6 +1143,7 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
 
