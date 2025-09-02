@@ -1,7 +1,6 @@
 // Объекты с терминалами
 const terminals = {
-    "nutep": ["НУТЭП"],
-    "nle": ["НЛЭ"],
+    "novorossiysk": ["НУТЭП"],
     "kaliningrad": ["Балтийск"],
     "spb": ["КТСП", "ПКТ/ПЛП", "ТМРП"], 
     "vladivostok": ["ВМПП"],
@@ -1143,6 +1142,7 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
 
