@@ -85,6 +85,7 @@ h1 {
 .calculator-header {
   background: var(--secondary-color);
   padding: 1rem;
+  min-height: 80px; 
   text-align: center;
 }
 
@@ -271,6 +272,7 @@ footer {
     padding: 0 3rem;
   }
 }
+
 
 
 
