@@ -3,7 +3,7 @@ const terminals = {
     "nutep": ["НУТЭП"],
     "nle": ["НЛЭ"],
     "kaliningrad": ["Балтийск"],
-    "spb": ["КТСП", "ПКТ/ПЛП", "ТМРП"], 
+    "spb": ["КТСП", "ПКТ/ПЛП", "ТМРП", "Бронка"], 
     "vladivostok": ["ВМПП"],
     "vostochny": ["Порт Восточный"],
     "tmrp": ["ТМРП"],
@@ -1198,6 +1198,7 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
 
