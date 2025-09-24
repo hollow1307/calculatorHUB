@@ -718,6 +718,7 @@ function updateStorageContainerTypes(port) {
         addOption(newSelect, 'imo40dc', 'IMO 40 DC/HC/TANK');
         addOption(newSelect, '20fr', '20 FR/OT');
         addOption(newSelect, '40fr', '40 FR/OT');
+    }
         
     // Добавляем ОДИН обработчик
     newSelect.addEventListener('change', function() {
@@ -1197,6 +1198,7 @@ document.addEventListener('DOMContentLoaded', () => {
      document.getElementById('calculate-storage-btn').addEventListener('click', calculateStorage);
      document.getElementById('calculate-demurrage-btn').addEventListener('click', calculateDemurrage);
 });
+
 
 
 
